@@ -64,6 +64,7 @@ async function sendOrderEmail(orderId, customer, items, total, paymentMethod) {
 
 // WhatsApp is optional — if Chrome is not available, the server still runs fine
 let sendWhatsAppMessage = async () => {}; // no-op fallback
+/*
 try {
     const wa = require('./whatsappClient');
     sendWhatsAppMessage = wa.sendWhatsAppMessage;
@@ -71,6 +72,7 @@ try {
 } catch (e) {
     console.warn('⚠️ WhatsApp client failed to load. Orders will work, but WhatsApp notifications are disabled.', e.message);
 }
+*/
 
 const app = express();
 const port = process.env.PORT || 3000;
