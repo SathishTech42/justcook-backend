@@ -303,12 +303,11 @@
     googleBtn.addEventListener('click', async () => {
         googleBtn.disabled = true;
         const res = await window.Auth.loginWithGoogle();
-        if (res.success) {
-            window.location.hash = '#/';
-        } else {
-            setMsg(res.error, 'err');
+        if (res && !res.success) {
+            setMsg(res.error || "An error occurred", 'err');
             googleBtn.disabled = false;
         }
+        // If success, Supabase will redirect the page to Google, so we do nothing.
     });
 })();
 </script>

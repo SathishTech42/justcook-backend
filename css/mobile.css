@@ -11,10 +11,12 @@
         scroll-behavior: smooth;
         -webkit-tap-highlight-color: transparent;
         -webkit-text-size-adjust: 100%;
+        overflow-x: hidden; /* Fix white shade */
     }
 
     body {
         overscroll-behavior-y: none;
+        overflow-x: hidden; /* Fix white shade */
         /* Prevent pull-to-refresh */
     }
 

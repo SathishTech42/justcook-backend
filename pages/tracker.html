@@ -168,11 +168,15 @@
 
         setTimeout(function() {
             var DB = window.Database;
-            var isPhone = /^\d{10}$/.test(query);
+            // Clean phone number (remove +91, spaces, hyphens)
+            var cleanPhone = query.replace(/\D/g, '');
+            if (cleanPhone.length === 12 && cleanPhone.startsWith('91')) cleanPhone = cleanPhone.substring(2);
+            
+            var isPhone = cleanPhone.length === 10;
 
             if (isPhone) {
-                // If phone, just get the latest order once (realtime by phone is harder because they might have multiple)
-                DB.getOrdersByPhone(query).then(function(res) {
+                // If phone, just get the latest order once
+                DB.getOrdersByPhone(cleanPhone).then(function(res) {
                     btn.textContent = 'Track Order';
                     btn.disabled = false;
                     var order = res && res.length > 0 ? res[0] : null;

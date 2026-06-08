@@ -85,9 +85,11 @@
                     }
                 });
                 if (error) throw error;
+                return { success: true };
             } catch (error) {
                 console.error("Google Auth Error:", error);
                 if (window.showToast) window.showToast(error.message, "error");
+                return { success: false, error: error.message };
             }
         },
 
