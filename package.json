@@ -1,0 +1,12 @@
+{
+  "name": "justcook-fullstack",
+  "version": "1.0.0",
+  "description": "Unified Frontend and Backend for JustCook",
+  "scripts": {
+    "install": "cd backend && npm install",
+    "start": "cd backend && node server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

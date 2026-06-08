@@ -1,0 +1,6 @@
+node_modules/
+**/node_modules/
+backend/.env
+**/.wwebjs_auth/
+**/.wwebjs_cache/
+.DS_Store

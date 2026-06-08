@@ -1,0 +1,9 @@
+node_modules/
+backend/node_modules/
+.wwebjs_auth/
+backend/.wwebjs_auth/
+.wwebjs_cache/
+backend/.wwebjs_cache/
+.git/
+.env
+backend/.env
