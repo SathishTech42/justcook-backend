@@ -1,8 +1,7 @@
-<style>
-/* ===== My Orders Page ===== */
-.orders-page { padding: 6rem 0 10rem; position: relative; }
-.orders-title { font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 900; margin-bottom: 1.5rem; text-align: center; letter-spacing: -0.03em; }
-.orders-subtitle { text-align: center; opacity: 0.5; margin-bottom: 4rem; font-size: 1.1rem; }
+/* ===== Flipkart-Style Orders Page ===== */
+.orders-page { padding: 6rem 0 10rem; position: relative; background: var(--bg); }
+.orders-title { font-size: clamp(2rem, 5vw, 3rem); font-weight: 900; margin-bottom: 0.5rem; text-align: center; }
+.orders-subtitle { text-align: center; opacity: 0.5; margin-bottom: 3rem; font-size: 1rem; }
 
 .orders-container { max-width: 900px; margin: 0 auto; }
 
@@ -10,72 +9,126 @@
 .orders-search-box {
     background: var(--card);
     border: 1px solid var(--border);
-    border-radius: 32px;
-    padding: 2.5rem;
-    margin-bottom: 4rem;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.04);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 3rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     text-align: center;
 }
-.orders-search-box h3 { margin-bottom: 1.5rem; font-size: 1.3rem; }
-.os-input-group { display: flex; gap: 1rem; max-width: 500px; margin: 0 auto; }
+.orders-search-box h3 { margin-bottom: 1rem; font-size: 1.2rem; }
+.os-input-group { display: flex; gap: 0.5rem; max-width: 450px; margin: 0 auto; }
 .os-input {
-    flex: 1; padding: 1rem 1.5rem;
-    background: var(--bg); border: 2px solid var(--border);
-    border-radius: 20px; color: var(--text);
-    font-size: 1rem; font-weight: 600;
-    transition: all 0.3s;
+    flex: 1; padding: 0.8rem 1.2rem;
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 12px; color: var(--text);
+    font-size: 1rem; font-weight: 500;
 }
 .os-input:focus { outline: none; border-color: var(--primary); }
 .os-btn {
     background: var(--primary); color: white;
-    border: none; border-radius: 20px;
-    padding: 0 2rem; font-weight: 800;
-    cursor: pointer; transition: transform 0.3s;
+    border: none; border-radius: 12px;
+    padding: 0 1.5rem; font-weight: 700;
+    cursor: pointer; transition: 0.2s;
 }
-.os-btn:hover { transform: translateY(-2px); }
 
-/* Order Cards */
-.order-list { display: grid; gap: 2rem; }
-.order-card {
+/* Flipkart Style Order Cards */
+.order-list { display: flex; flex-direction: column; gap: 1.5rem; }
+.fk-order-card {
     background: var(--card);
     border: 1px solid var(--border);
-    border-radius: 28px;
-    padding: 2rem;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    display: grid;
-    grid-template-columns: 1fr auto;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: box-shadow 0.3s;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+}
+.fk-order-card:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.08); }
+
+/* Header */
+.fk-order-header {
+    background: rgba(0,0,0,0.02);
+    padding: 1.2rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 2rem;
+    border-bottom: 1px solid var(--border);
 }
-.order-card:hover { transform: translateY(-8px); border-color: var(--primary); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
-
-.order-info h4 { font-size: 1.2rem; font-weight: 800; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.8rem; }
-.order-info p { opacity: 0.5; font-size: 0.9rem; margin-bottom: 1rem; }
-.order-items-preview { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-.order-item-chip {
-    padding: 0.4rem 0.8rem; background: var(--bg);
-    border-radius: 99px; font-size: 0.75rem; font-weight: 700; border: 1px solid var(--border);
+.fk-order-id { font-size: 0.9rem; font-weight: 600; opacity: 0.8; }
+.fk-order-status {
+    display: flex; align-items: center; gap: 6px;
+    font-weight: 800; font-size: 0.95rem;
 }
+.fk-status-dot { width: 10px; height: 10px; border-radius: 50%; }
 
-.order-status { text-align: right; }
-.os-price { font-size: 1.5rem; font-weight: 900; color: var(--primary); margin-bottom: 0.8rem; }
-.os-badge {
-    display: inline-block; padding: 0.5rem 1.2rem;
-    border-radius: 99px; font-size: 0.8rem; font-weight: 800;
-    text-transform: uppercase; letter-spacing: 1px;
+/* Status Colors */
+.fk-status-confirmed .fk-status-dot { background: #3b82f6; }
+.fk-status-confirmed { color: #3b82f6; }
+.fk-status-processing .fk-status-dot { background: #f59e0b; }
+.fk-status-processing { color: #f59e0b; }
+.fk-status-delivered .fk-status-dot { background: #10b981; }
+.fk-status-delivered { color: #10b981; }
+.fk-status-cancelled .fk-status-dot { background: #ef4444; }
+.fk-status-cancelled { color: #ef4444; }
+
+/* Body */
+.fk-order-body { padding: 1.5rem; }
+.fk-item-row {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px dashed var(--border);
 }
+.fk-item-row:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
 
-.status-Confirmed { background: rgba(99,102,241,0.1); color: #6366f1; }
-.status-Delivered { background: rgba(34,197,94,0.1); color: #22c55e; }
-.status-Processing { background: rgba(250,204,21,0.1); color: #eab308; }
+.fk-item-img {
+    width: 80px; height: 80px;
+    object-fit: cover;
+    border-radius: 12px;
+    background: var(--bg);
+}
+.fk-item-details { flex: 1; }
+.fk-item-name { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.3rem; }
+.fk-item-desc { font-size: 0.85rem; opacity: 0.5; }
+.fk-item-price { font-size: 1.2rem; font-weight: 800; text-align: right; }
+
+/* Footer */
+.fk-order-footer {
+    padding: 1.2rem 1.5rem;
+    background: rgba(0,0,0,0.01);
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.fk-delivery-address { font-size: 0.85rem; opacity: 0.7; max-width: 60%; line-height: 1.4; }
+.fk-total { font-size: 1.2rem; font-weight: 600; }
+.fk-total span { font-weight: 900; color: var(--primary); font-size: 1.4rem; margin-left: 0.5rem; }
+
+/* Buttons */
+.fk-actions { display: flex; gap: 1rem; align-items: center; }
+.fk-track-btn {
+    padding: 0.6rem 1.5rem;
+    background: white; color: var(--primary);
+    border: 2px solid var(--primary); border-radius: 12px;
+    font-weight: 700; font-size: 0.9rem;
+    text-decoration: none; transition: 0.3s;
+}
+.fk-track-btn:hover { background: var(--primary); color: white; }
 
 .empty-state { text-align: center; padding: 6rem 2rem; opacity: 0.5; }
 .empty-state i { font-size: 4rem; margin-bottom: 1.5rem; display: block; }
 
 @media (max-width: 600px) {
-    .order-card { grid-template-columns: 1fr; text-align: center; }
-    .order-status { text-align: center; border-top: 1px solid var(--border); padding-top: 1.5rem; }
-    .os-input-group { flex-direction: column; }
+    .fk-order-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+    .fk-item-row { align-items: flex-start; }
+    .fk-item-img { width: 60px; height: 60px; }
+    .fk-item-name { font-size: 1rem; }
+    .fk-item-price { font-size: 1rem; }
+    .fk-order-footer { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .fk-delivery-address { max-width: 100%; }
+    .fk-actions { width: 100%; justify-content: space-between; }
+    .fk-track-btn { width: 100%; text-align: center; }
 }
 </style>
 
@@ -177,27 +230,47 @@
                 day: 'numeric', month: 'short', year: 'numeric'
             });
             const status = o.status || 'Confirmed';
-            const itemsPreview = (o.items || []).slice(0, 3).map(it => 
-                `<span class="order-item-chip">${it.qty}x ${it.name}</span>`
-            ).join('');
-            const moreItems = o.items.length > 3 ? `<span class="order-item-chip">+${o.items.length - 3} more</span>` : '';
+            const statusLower = status.replace(/\s+/g, '').toLowerCase();
+
+            const itemsHtml = (o.items || []).map(it => `
+                <div class="fk-item-row">
+                    <img src="${it.imageUrl || 'images/logo.png'}" class="fk-item-img" alt="${it.name}">
+                    <div class="fk-item-details">
+                        <h4 class="fk-item-name">${it.name}</h4>
+                        <p class="fk-item-desc">Qty: ${it.qty}</p>
+                    </div>
+                    <div class="fk-item-price">₹${(it.price * it.qty).toFixed(2)}</div>
+                </div>
+            `).join('');
 
             return `
-                <div class="order-card" data-aos="fade-up" data-aos-delay="${i * 50}">
-                    <div class="order-info">
-                        <h4>#${o.id} <span style="font-size:0.8rem; font-weight:400; opacity:0.4;">| ${date}</span></h4>
-                        <p>${o.customer.address}, ${o.customer.city}</p>
-                        <div class="order-items-preview">
-                            ${itemsPreview}
-                            ${moreItems}
+                <div class="fk-order-card" data-aos="fade-up" data-aos-delay="${i * 50}">
+                    <div class="fk-order-header">
+                        <div class="fk-order-id">
+                            <strong>Order ID:</strong> #${o.id}
+                            <span style="opacity:0.5; margin-left:10px;">| ${date}</span>
                         </div>
-                        <div style="margin-top:1.5rem;">
-                            <a href="#/tracker?id=${o.id}" class="btn btn-outline" style="padding:0.6rem 1.2rem; font-size:0.8rem;">Track Details</a>
+                        <div class="fk-order-status fk-status-${statusLower}">
+                            <span class="fk-status-dot"></span>
+                            ${status}
                         </div>
                     </div>
-                    <div class="order-status">
-                        <div class="os-price">₹${o.total.toFixed(2)}</div>
-                        <div class="os-badge status-${status.replace(/\s+/g, '')}">${status}</div>
+
+                    <div class="fk-order-body">
+                        ${itemsHtml}
+                    </div>
+
+                    <div class="fk-order-footer">
+                        <div class="fk-delivery-address">
+                            <strong>Delivery to:</strong><br>
+                            ${o.customer.address}, ${o.customer.city} - ${o.customer.pincode}
+                        </div>
+                        <div class="fk-actions">
+                            <div class="fk-total">
+                                Total: <span>₹${o.total.toFixed(2)}</span>
+                            </div>
+                            <a href="#/tracker?id=${o.id}" class="fk-track-btn">Track Order</a>
+                        </div>
                     </div>
                 </div>
             `;
@@ -209,7 +282,7 @@
     if (urlParams.has('phone')) {
         const p = urlParams.get('phone');
         phoneInput.value = p;
-        loadOrders(p);
+        loadOrdersByPhone(p);
     }
 
 })();
