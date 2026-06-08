@@ -45,7 +45,7 @@
     }
 
     /* ── Bottom Navigation Bar (App Style) ───────────────────── */
-    .mobile-bottom-nav {
+    .mobile-taskbar {
         display: flex !important;
         position: fixed;
         bottom: 0;
@@ -61,13 +61,13 @@
         box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.08);
     }
 
-    .dark-theme .mobile-bottom-nav,
-    body:not(.light-theme) .mobile-bottom-nav {
+    .dark-theme .mobile-taskbar,
+    body:not(.light-theme) .mobile-taskbar {
         background: rgba(15, 23, 42, 0.97);
         border-top-color: rgba(255, 255, 255, 0.08);
     }
 
-    .mob-nav-item {
+    .taskbar-item {
         flex: 1;
         display: flex;
         flex-direction: column;
@@ -84,28 +84,26 @@
         position: relative;
     }
 
-    .mob-nav-item.active {
+    .taskbar-item.active {
         opacity: 1;
         color: var(--primary);
     }
 
-    .mob-nav-item.active svg {
+    .taskbar-item.active i {
         transform: scale(1.1);
     }
 
-    .mob-nav-item svg {
-        width: 22px;
-        height: 22px;
+    .taskbar-item i {
         transition: transform 0.2s ease;
     }
 
-    .mob-nav-label {
+    .taskbar-item span:not(.taskbar-badge) {
         font-size: 10px;
         font-weight: 700;
         letter-spacing: 0.3px;
     }
 
-    .mob-nav-badge {
+    .taskbar-badge {
         position: absolute;
         top: 4px;
         right: calc(50% - 18px);

@@ -140,14 +140,13 @@ async function handleRoute() {
             gsap.to(appRoot, {
                 opacity: 0, 
                 scale: 0.98,
-                filter: 'blur(10px)',
-                duration: 0.25,
+                duration: 0.2,
                 ease: 'power2.in',
                 onComplete() {
                     renderPage();
                     gsap.fromTo(appRoot, 
-                        { opacity: 0, scale: 1.02, filter: 'blur(20px)', y: 20 }, 
-                        { opacity: 1, scale: 1, filter: 'blur(0px)', y: 0, duration: 0.6, ease: 'power3.out' }
+                        { opacity: 0, scale: 1.02, y: 15 }, 
+                        { opacity: 1, scale: 1, y: 0, duration: 0.4, ease: 'power3.out' }
                     );
                     
                     // Stagger reveal all sections in the new page
