@@ -19,6 +19,7 @@
     <!-- CSS -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/mobile.css">
     <link rel="stylesheet" href="https://unpkg.com/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="css/home-page.css" />
 
@@ -233,30 +234,67 @@
     </footer>
 
 
-    <!-- Mobile Bottom Taskbar -->
-    <div class="mobile-taskbar" style="display: none;">
-        <a href="#/" class="taskbar-item">
-            <i class="fas fa-home"></i>
+
+    <!-- Mobile Bottom Taskbar (shown only on mobile via CSS) -->
+    <div class="mobile-taskbar" style="display: none;" id="mobileTaskbar">
+        <a href="#/" class="taskbar-item" data-route="/">
+            <i class="fas fa-home" style="font-size:1.3rem;"></i>
             <span>Home</span>
         </a>
-        <a href="#/products" class="taskbar-item">
-            <i class="fas fa-store"></i>
+        <a href="#/products" class="taskbar-item" data-route="/products">
+            <i class="fas fa-store" style="font-size:1.3rem;"></i>
             <span>Shop</span>
         </a>
-        <a href="#/cart" class="taskbar-item" style="position: relative;">
-            <i class="fas fa-shopping-cart"></i>
+        <a href="#/cart" class="taskbar-item" data-route="/cart" style="position: relative;">
+            <i class="fas fa-shopping-cart" style="font-size:1.3rem;"></i>
             <span>Cart</span>
-            <span class="taskbar-badge" id="taskbar-cart-count">0</span>
+            <span class="taskbar-badge" id="taskbar-cart-count" style="display:none;">0</span>
         </a>
-        <a href="#/orders" class="taskbar-item">
-            <i class="fas fa-box-open"></i>
+        <a href="#/orders" class="taskbar-item" data-route="/orders">
+            <i class="fas fa-box-open" style="font-size:1.3rem;"></i>
             <span>Orders</span>
         </a>
-        <a href="#/login" class="taskbar-item">
-            <i class="fas fa-user"></i>
+        <a href="#/login" class="taskbar-item" data-route="/login">
+            <i class="fas fa-user" style="font-size:1.3rem;"></i>
             <span>Profile</span>
         </a>
     </div>
+
+    <script>
+    // ── Mobile Bottom Nav: Active State + Cart Badge ─────────
+    (function() {
+        function updateMobileNav() {
+            const hash = window.location.hash.replace('#', '') || '/';
+            const items = document.querySelectorAll('.taskbar-item');
+            items.forEach(item => {
+                const route = item.getAttribute('data-route');
+                item.classList.toggle('active', hash === route || (route !== '/' && hash.startsWith(route)));
+            });
+
+            // Sync cart badge
+            if (window.Store) {
+                const count = window.Store.getCartTotals ? window.Store.getCartTotals().count : 0;
+                const badge = document.getElementById('taskbar-cart-count');
+                if (badge) {
+                    badge.textContent = count;
+                    badge.style.display = count > 0 ? 'flex' : 'none';
+                }
+                // Also update Profile icon to show logged in state
+                const user = window.Store.getState ? window.Store.getState().user : null;
+                const profileItem = document.querySelector('.taskbar-item[data-route="/login"] i');
+                if (profileItem && user) {
+                    profileItem.className = 'fas fa-user-check';
+                    profileItem.style.color = 'var(--primary)';
+                }
+            }
+        }
+
+        window.addEventListener('hashchange', updateMobileNav);
+        window.addEventListener('load', updateMobileNav);
+        // Poll for cart changes every 2s
+        setInterval(updateMobileNav, 2000);
+    })();
+    </script>
 
     <!-- ✅ Backend Init (Supabase is server-side now) -->
     <!-- Supabase JS -->
