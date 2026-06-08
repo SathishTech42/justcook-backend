@@ -69,7 +69,24 @@ client.on('auth_failure', msg => {
     console.error('WhatsApp Authentication failure:', msg);
 });
 
-client.initialize();
+// Wrap initialize in a try/catch so Chrome failures don't crash the server
+try {
+    client.initialize().catch(err => {
+        console.warn('⚠️ WhatsApp client failed to initialize (Chrome may be unavailable):', err.message);
+        console.warn('   Orders will still work. WhatsApp notifications are disabled.');
+    });
+} catch (err) {
+    console.warn('⚠️ WhatsApp client failed to start:', err.message);
+}
+
+// Safety net: prevent any unhandled WhatsApp/Puppeteer crash from killing the server
+process.on('unhandledRejection', (reason) => {
+    if (reason && reason.message && reason.message.includes('browser')) {
+        console.warn('⚠️ Caught unhandled WhatsApp/browser rejection:', reason.message);
+    } else {
+        console.error('Unhandled Rejection:', reason);
+    }
+});
 
 async function sendWhatsAppMessage(toPhone, message) {
     if (!isReady) {
