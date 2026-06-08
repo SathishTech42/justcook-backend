@@ -320,7 +320,7 @@
                     <span style="opacity:0.6;">UTR:</span> 
                     <span style="font-family:monospace; font-weight:700;">${o.paymentId || 'N/A'}</span>
                 </div>
-                <select onchange="window.Database.updateOrderStatus('${o.id}', this.value)" style="width:100%; padding:0.8rem; border-radius:12px; border:1px solid var(--border); background:var(--bg); color:var(--text); font-weight:700;">
+                <select onchange="window.Database.updateOrderStatus('${o.docId}', this.value)" style="width:100%; padding:0.8rem; border-radius:12px; border:1px solid var(--border); background:var(--bg); color:var(--text); font-weight:700;">
                     <option value="Confirmed" ${o.status==='Confirmed'?'selected':''}>Confirmed</option>
                     <option value="Processing" ${o.status==='Processing'?'selected':''}>Processing</option>
                     <option value="Delivered" ${o.status==='Delivered'?'selected':''}>Mark Delivered</option>
@@ -379,7 +379,7 @@
                 </td>
                 <td><span class="badge ${o.status==='Delivered'?'b-done':'b-pending'}">${o.status || 'Confirmed'}</span></td>
                 <td>
-                    <select onchange="window.Database.updateOrderStatus('${o.id}', this.value)" style="padding:0.4rem; border-radius:8px; border:1px solid var(--border); background:var(--bg); color:var(--text); font-size:0.8rem;">
+                    <select onchange="window.Database.updateOrderStatus('${o.docId}', this.value)" style="padding:0.4rem; border-radius:8px; border:1px solid var(--border); background:var(--bg); color:var(--text); font-size:0.8rem;">
                         <option value="Confirmed" ${o.status==='Confirmed'?'selected':''}>Confirmed</option>
                         <option value="Processing" ${o.status==='Processing'?'selected':''}>Processing</option>
                         <option value="Delivered" ${o.status==='Delivered'?'selected':''}>Delivered</option>
