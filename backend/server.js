@@ -3,6 +3,64 @@ const express = require('express');
 const cors = require('cors');
 const { createClient } = require('@supabase/supabase-js');
 const path = require('path');
+const nodemailer = require('nodemailer');
+
+// ── Email Notification Setup ──────────────────────────────
+let emailTransporter = null;
+if (process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD) {
+    emailTransporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.GMAIL_USER,
+            pass: process.env.GMAIL_APP_PASSWORD
+        }
+    });
+    console.log('✅ Gmail email notifications enabled.');
+} else {
+    console.warn('⚠️ Gmail credentials not set. Email notifications disabled.');
+}
+
+async function sendOrderEmail(orderId, customer, items, total, paymentMethod) {
+    if (!emailTransporter) return;
+    const adminEmail = process.env.ADMIN_EMAIL || process.env.GMAIL_USER;
+    const itemsList = (items || []).map(i => `<tr><td style="padding:8px;border-bottom:1px solid #eee;">${i.name}</td><td style="padding:8px;border-bottom:1px solid #eee;text-align:center;">${i.qty || i.quantity || 1}</td><td style="padding:8px;border-bottom:1px solid #eee;text-align:right;">₹${i.price}</td></tr>`).join('');
+    const html = `
+    <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">
+        <div style="background:#ff5a5f;padding:24px;border-radius:12px 12px 0 0;">
+            <h1 style="color:white;margin:0;font-size:24px;">🚨 New Order Received!</h1>
+        </div>
+        <div style="background:#fff;padding:24px;border:1px solid #eee;">
+            <h2 style="color:#ff5a5f;">Order #${orderId}</h2>
+            <table style="width:100%;border-collapse:collapse;margin-bottom:20px;">
+                <tr><td style="padding:8px;font-weight:bold;">Customer:</td><td style="padding:8px;">${customer.name}</td></tr>
+                <tr><td style="padding:8px;font-weight:bold;">Phone:</td><td style="padding:8px;">${customer.phone}</td></tr>
+                <tr><td style="padding:8px;font-weight:bold;">Email:</td><td style="padding:8px;">${customer.email || 'N/A'}</td></tr>
+                <tr><td style="padding:8px;font-weight:bold;">Address:</td><td style="padding:8px;">${customer.address}, ${customer.city} - ${customer.pincode}</td></tr>
+                <tr><td style="padding:8px;font-weight:bold;">Payment:</td><td style="padding:8px;">${paymentMethod}</td></tr>
+            </table>
+            <h3>Items Ordered:</h3>
+            <table style="width:100%;border-collapse:collapse;">
+                <tr style="background:#f5f5f5;"><th style="padding:8px;text-align:left;">Item</th><th style="padding:8px;">Qty</th><th style="padding:8px;text-align:right;">Price</th></tr>
+                ${itemsList}
+            </table>
+            <h2 style="text-align:right;color:#ff5a5f;">Total: ₹${total}</h2>
+        </div>
+        <div style="background:#f9f9f9;padding:16px;border-radius:0 0 12px 12px;text-align:center;color:#999;font-size:12px;">
+            JustCook Admin Notification • <a href="https://www.justcook.co.in/pages/admin.html">Open Admin Panel</a>
+        </div>
+    </div>`;
+    try {
+        await emailTransporter.sendMail({
+            from: `"JustCook Orders" <${process.env.GMAIL_USER}>`,
+            to: adminEmail,
+            subject: `🚨 New Order #${orderId} — ₹${total} from ${customer.name}`,
+            html
+        });
+        console.log(`📧 Order notification email sent for ${orderId}`);
+    } catch (err) {
+        console.error('❌ Failed to send order email:', err.message);
+    }
+}
 
 // WhatsApp is optional — if Chrome is not available, the server still runs fine
 let sendWhatsAppMessage = async () => {}; // no-op fallback
@@ -74,6 +132,9 @@ app.post('/api/orders', async (req, res) => {
             .single();
 
         if (error) throw error;
+
+        // Send Email to Admin
+        sendOrderEmail(orderId, customer, items, total, paymentMethod);
 
         // Send WhatsApp Message to Admin
         const adminPhone = process.env.ADMIN_WHATSAPP_NUMBER;
