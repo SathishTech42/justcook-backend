@@ -2,7 +2,7 @@
 // JustCook — Global Config (Supabase Frontend)
 // ============================================================
 
-window.SUPABASE_URL = 'https://zaxgfjpdiupeyhgrllbw.supabase.co';
+window.SUPABASE_URL = 'https://zaxgfjpdihpeyhgrllbw.supabase.co';
 // Anon key from Supabase Dashboard -> Settings -> API
 window.SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpheGdmanBkaWhwZXloZ3JsbGJ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwMTY1MzQsImV4cCI6MjA5NTU5MjUzNH0.12AplYRjXVtlmCEgAoVQ-jT_nj6_dM13iP5JEgKCybs';
 

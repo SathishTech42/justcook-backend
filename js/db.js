@@ -160,7 +160,7 @@
                     .channel(`public:orders:id=${orderId}`)
                     .on(
                         'postgres_changes',
-                        { event: 'UPDATE', schema: 'public', table: 'orders', filter: `order_id=eq.${orderId}` },
+                        { event: 'UPDATE', schema: 'public', table: 'orders', filter: `id=eq.${orderId}` },
                         (payload) => {
                             console.log('Realtime single order change!', payload);
                             this.getOrderById(orderId).then(callback);

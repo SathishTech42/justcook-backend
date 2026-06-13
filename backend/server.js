@@ -120,14 +120,15 @@ app.post('/api/orders', async (req, res) => {
         const { data, error } = await supabase
             .from('orders')
             .insert([{
-                order_id: orderId,
+                id: orderId,
                 user_id: userId || 'guest',
                 user_email: userEmail || 'guest',
-                customer_info: customer,
+                customer: customer,
                 items: items,
                 total: total,
                 payment_method: paymentMethod,
                 payment_id: paymentId,
+                payment_status: 'Paid',
                 status: 'Pending'
             }])
             .select()
@@ -171,10 +172,10 @@ app.get('/api/orders', async (req, res) => {
         
         const mappedData = data.map(order => ({
             docId: order.id,
-            id: order.order_id,
+            id: order.id,
             userId: order.user_id,
             userEmail: order.user_email,
-            customer: order.customer_info,
+            customer: order.customer,
             items: order.items,
             total: order.total,
             paymentMethod: order.payment_method,
@@ -205,10 +206,10 @@ app.get('/api/orders/user/:uid', async (req, res) => {
         // Map data to match old Firebase structure
         const mappedData = data.map(order => ({
             docId: order.id,
-            id: order.order_id,
+            id: order.id,
             userId: order.user_id,
             userEmail: order.user_email,
-            customer: order.customer_info,
+            customer: order.customer,
             items: order.items,
             total: order.total,
             paymentMethod: order.payment_method,
@@ -231,7 +232,7 @@ app.get('/api/orders/id/:id', async (req, res) => {
         const { data, error } = await supabase
             .from('orders')
             .select('*')
-            .eq('order_id', id.toUpperCase())
+            .eq('id', id.toUpperCase())
             .single();
 
         if (error && error.code !== 'PGRST116') throw error; // PGRST116 is not found
@@ -239,10 +240,10 @@ app.get('/api/orders/id/:id', async (req, res) => {
 
         const mappedData = {
             docId: data.id,
-            id: data.order_id,
+            id: data.id,
             userId: data.user_id,
             userEmail: data.user_email,
-            customer: data.customer_info,
+            customer: data.customer,
             items: data.items,
             total: data.total,
             paymentMethod: data.payment_method,
@@ -265,17 +266,16 @@ app.get('/api/orders/phone/:phone', async (req, res) => {
         const { data, error } = await supabase
             .from('orders')
             .select('*')
-            .eq('customer_info->>phone', phone)
+            .eq('customer->>phone', phone)
             .order('created_at', { ascending: false });
 
         if (error) throw error;
 
         const mappedData = data.map(order => ({
             docId: order.id,
-            id: order.order_id,
-            customer: order.customer_info,
+            id: order.id,
+            customer: order.customer,
             items: order.items,
-            total: order.total,
             status: order.status,
             createdAt: order.created_at
         }));
