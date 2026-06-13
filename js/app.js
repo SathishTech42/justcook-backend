@@ -45,7 +45,6 @@ const routes = {
     '/cart':     { file: 'pages/cart.html',            title: 'JustCook | Cart' },
     '/checkout': { file: 'pages/checkout.html',        title: 'JustCook | Checkout' },
     '/admin':    { file: 'pages/admin.html',           title: 'JustCook | Admin Dashboard' },
-    '/login':    { file: 'pages/login.html',           title: 'JustCook | Login' },
     '/contact':  { file: 'pages/contact.html',         title: 'JustCook | Contact Us' }
 };
 
@@ -245,36 +244,7 @@ function initApp() {
         });
     }
 
-    // ── Admin Dashboard Link & User State ──────────────────────
-    if (window.Store) {
-        window.Store.subscribe((state) => {
-            const user = state.user;
-            const nav = document.getElementById('navLinks');
-            const existingAdminLink = document.getElementById('nav-admin-link');
-            
-            if (user && user.role === 'admin') {
-                if (!existingAdminLink) {
-                    const a = document.createElement('a');
-                    a.id = 'nav-admin-link';
-                    a.href = '#/admin';
-                    a.className = 'nav-link';
-                    a.textContent = 'Dashboard';
-                    a.style.color = 'var(--primary)';
-                    a.style.fontWeight = '800';
-                    nav.appendChild(a);
-                }
-            } else {
-                if (existingAdminLink) existingAdminLink.remove();
-            }
-
-            // Update user icon color/state
-            const userBtn = document.getElementById('user-btn');
-            if (userBtn) {
-                userBtn.style.color = user ? 'var(--primary)' : 'inherit';
-                userBtn.title = user ? `Logged in as ${user.name}` : 'Login';
-            }
-        });
-    }
+    // No login or admin role check needed
 }
 
 if (document.readyState === 'loading') {

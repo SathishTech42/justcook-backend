@@ -144,18 +144,8 @@
 </style>
 
 <div class="jc-admin-page container">
-    <!-- AUTH GATE -->
-    <div id="adminGate" class="admin-gate">
-        <div class="gate-card">
-            <div style="font-size:3rem; margin-bottom:1.5rem;">🔒</div>
-            <h2 style="font-weight:900; margin-bottom:1rem;">Restricted Access</h2>
-            <p id="agMsg" style="opacity:0.5; margin-bottom:2rem;">Please sign in with an Admin account.</p>
-            <a href="#/login" class="btn" style="width:100%;">Go to Login Page</a>
-        </div>
-    </div>
-
     <!-- DASHBOARD -->
-    <div id="adminDash" class="hidden">
+    <div id="adminDash">
         <div class="jc-ad-top">
             <div>
                 <h1 style="font-weight:900; font-size:2.2rem;">Live Command Center</h1>
@@ -163,7 +153,6 @@
             </div>
             <div style="display:flex; gap:1rem; align-items:center;">
                 <div class="live-pulse"><span class="pulse-dot"></span> LIVE DATA</div>
-                <button id="adLogout" class="btn btn-secondary">Logout</button>
             </div>
         </div>
 
@@ -248,25 +237,8 @@
     let _unsub = null;
     let _orders = [];
 
-    const gate = document.getElementById('adminGate');
-    const dash = document.getElementById('adminDash');
-
-    // ── Real-time Auth Gate ─────────────────────────────
-    function checkAuth() {
-        const user = window.Store ? window.Store.getState().user : null;
-        if (user && user.role === 'admin') {
-            gate.classList.add('hidden');
-            dash.classList.remove('hidden');
-            initLiveSync();
-        } else {
-            gate.classList.remove('hidden');
-            dash.classList.add('hidden');
-        }
-    }
-    if (window.Store) window.Store.subscribe(checkAuth);
-    checkAuth();
-
-    document.getElementById('adLogout').addEventListener('click', () => window.Auth.logout());
+    // Start live sync automatically since login is removed
+    initLiveSync();
 
     // ── Live Firestore Sync ──────────────────────────────
     function initLiveSync() {
