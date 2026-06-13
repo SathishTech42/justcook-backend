@@ -822,14 +822,19 @@
                     if (res.success) {
                         // Send Email Notification via EmailJS
                         if (window.emailjs) {
+                            // Format the list of items for the email body
+                            const itemsList = safeCart.map(item => `- ${item.name} (Qty: ${item.qty})`).join('\n');
+
                             const templateParams = {
                                 customer_name: customer.name,
                                 customer_phone: customer.phone,
+                                customer_email: customer.email,
                                 customer_address: `${customer.address}, ${customer.city}, ${customer.pincode}`,
                                 order_id: res.orderId,
-                                total_amount: paidTotal || totals.total
+                                payment_id: paymentId || 'N/A',
+                                total_amount: paidTotal || totals.total,
+                                order_items: itemsList
                             };
-                            // NOTE: Replace 'YOUR_SERVICE_ID' and 'YOUR_TEMPLATE_ID' with actual EmailJS IDs
                             emailjs.send('service_pt20bl6', 'template_2g3iulj', templateParams)
                                 .then(function(response) {
                                    console.log('Email sent SUCCESS!', response.status, response.text);
