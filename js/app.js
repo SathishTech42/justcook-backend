@@ -44,8 +44,6 @@ const routes = {
     '/product':  { file: 'pages/product-details.html', title: 'JustCook | Product' },
     '/cart':     { file: 'pages/cart.html',            title: 'JustCook | Cart' },
     '/checkout': { file: 'pages/checkout.html',        title: 'JustCook | Checkout' },
-    '/tracker':  { file: 'pages/tracker.html',         title: 'JustCook | Track Order' },
-    '/orders':   { file: 'pages/orders.html',          title: 'JustCook | My Orders' },
     '/admin':    { file: 'pages/admin.html',           title: 'JustCook | Admin Dashboard' },
     '/login':    { file: 'pages/login.html',           title: 'JustCook | Login' },
     '/contact':  { file: 'pages/contact.html',         title: 'JustCook | Contact Us' }

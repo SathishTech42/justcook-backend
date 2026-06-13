@@ -820,6 +820,24 @@
                     paymentId: paymentId
                 }).then(res => {
                     if (res.success) {
+                        // Send Email Notification via EmailJS
+                        if (window.emailjs) {
+                            const templateParams = {
+                                customer_name: customer.name,
+                                customer_phone: customer.phone,
+                                customer_address: `${customer.address}, ${customer.city}, ${customer.pincode}`,
+                                order_id: res.orderId,
+                                total_amount: paidTotal || totals.total
+                            };
+                            // NOTE: Replace 'YOUR_SERVICE_ID' and 'YOUR_TEMPLATE_ID' with actual EmailJS IDs
+                            emailjs.send('service_pt20bl6', 'template_2g3iulj', templateParams)
+                                .then(function(response) {
+                                   console.log('Email sent SUCCESS!', response.status, response.text);
+                                }, function(error) {
+                                   console.log('Email FAILED...', error);
+                                });
+                        }
+
                         Store.clearCart();
                         showSuccess(res.orderId, customer.name);
                     } else {
@@ -851,7 +869,6 @@
                     + '<div style="display:flex; gap:1.5rem; justify-content:center; flex-wrap:wrap;">'
                     + '<a href="https://wa.me/919840462831?text=Hi, I just paid for Order %23' + id + '. Please verify my address." target="_blank" class="btn" style="background:#25d366; color:white;">Verify Address on WhatsApp</a>'
                     + '<a href="#/" class="btn btn-secondary">Back to Home</a>'
-                    + '<a href="#/tracker" class="btn btn-secondary">Track Order</a>'
                     + '</div>'
                     + '</div>';
             }
