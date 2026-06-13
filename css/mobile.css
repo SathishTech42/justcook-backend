@@ -15,8 +15,7 @@
     }
 
     body {
-        overscroll-behavior-y: none;
-        overflow-x: hidden; /* Fix white shade */
+        overscroll-behavior-y: auto;
         /* Prevent pull-to-refresh */
     }
 
