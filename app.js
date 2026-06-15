@@ -222,12 +222,20 @@ document.addEventListener('DOMContentLoaded', () => {
   // Calculate initially and on resize
   window.addEventListener('load', calculatePositions);
   window.addEventListener('resize', calculatePositions);
+  window.addEventListener('orientationchange', () => {
+    setTimeout(calculatePositions, 150);
+  });
   calculatePositions(); // run once immediately
 
   window.addEventListener('scroll', () => {
     if (!heroCenterStage || targetScrollY <= 0) return;
-    
+
     const scrollY = window.scrollY;
+
+    if (scrollY === 0) {
+      heroCenterStage.style.transform = 'translate(-50%, -50%) scale(1)';
+      return;
+    }
     
     // Calculate progress (0 to 1) based on scroll distance.
     let progress = Math.max(0, Math.min(scrollY / targetScrollY, 1));

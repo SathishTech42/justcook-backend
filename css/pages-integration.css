@@ -1480,11 +1480,6 @@
     position: relative !important;
     top: auto !important;
   }
-
-  .revolution-container {
-    flex-direction: column;
-    text-align: center;
-  }
 }
 
 /* -- MOBILE (max 768px) ------------------------------------- */
