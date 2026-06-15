@@ -33,88 +33,169 @@ window.showToast = function(message, type = 'ok') {
 // Product Details Rendering Logic
 window.renderProductDetails = async function(productId) {
     if (!window.Database) return;
-    
+
+    // Show loader, hide content
+    const loader = document.getElementById('pd-loader');
+    const mainView = document.getElementById('pd-main-view');
+    if (loader) loader.style.display = 'flex';
+    if (mainView) mainView.style.display = 'none';
+
     const product = await window.Database.getProductById(productId);
     if (!product) {
         window.location.hash = '#/products';
         return;
     }
 
-    const imgEl = document.getElementById('pd-img');
-    const catEl = document.getElementById('pd-category');
-    const titleEl = document.getElementById('pd-title');
-    const priceEl = document.getElementById('pd-price');
-    const qtyEl = document.getElementById('pd-qty');
-    const minusBtn = document.getElementById('pd-btn-minus');
-    const plusBtn = document.getElementById('pd-btn-plus');
-    const addBtn = document.getElementById('pd-add-to-cart');
+    // Use the actual HTML IDs
+    const imgEl    = document.getElementById('pd-img');
+    const catEl    = document.getElementById('pd-cat');        // was 'pd-category'
+    const titleEl  = document.getElementById('pd-title');
+    const priceEl  = document.getElementById('pd-price');
+    const descEl   = document.getElementById('pd-desc');
+    const qtyEl    = document.getElementById('pd-qty-val');   // was 'pd-qty'
+    const minusBtn = document.getElementById('pd-minus');     // was 'pd-btn-minus'
+    const plusBtn  = document.getElementById('pd-plus');      // was 'pd-btn-plus'
+    const addBtn   = document.getElementById('pd-add');       // was 'pd-add-to-cart'
 
-    if (!imgEl) return; // Not injected properly yet
+    if (!imgEl) return;
 
+    // Populate fields
     imgEl.src = product.imageUrl || 'images/logo.png';
-    catEl.textContent = product.category;
-    titleEl.textContent = product.name;
-    priceEl.textContent = '₹' + Number(product.price).toFixed(2);
-    
-    let currentQty = 1;
-    qtyEl.textContent = currentQty;
+    imgEl.alt = product.name;
+    if (catEl)   catEl.textContent  = product.category || '';
+    if (titleEl) titleEl.textContent = product.name;
+    if (priceEl) priceEl.textContent = '₹' + Number(product.price).toFixed(2);
+    if (descEl)  descEl.textContent  = product.description || '';
 
-    // Remove old listeners to prevent duplicates
-    const newMinus = minusBtn.cloneNode(true);
-    const newPlus = plusBtn.cloneNode(true);
-    const newAdd = addBtn.cloneNode(true);
-    
-    minusBtn.parentNode.replaceChild(newMinus, minusBtn);
-    plusBtn.parentNode.replaceChild(newPlus, plusBtn);
-    addBtn.parentNode.replaceChild(newAdd, addBtn);
-
-    newMinus.addEventListener('click', () => {
-        if (currentQty > 1) {
-            currentQty--;
-            qtyEl.textContent = currentQty;
-        }
-    });
-
-    newPlus.addEventListener('click', () => {
-        currentQty++;
-        qtyEl.textContent = currentQty;
-    });
-
-    newAdd.addEventListener('click', (e) => {
-        if (window.Store) {
-            window.Store.addToCart({
-                productId: product.id,
-                variantId: product.id,
-                name: product.name,
-                price: Number(product.price) || 0,
-                qty: currentQty,
-                imageUrl: product.imageUrl || 'images/logo.png',
-                category: product.category
+    // Populate sizes if available
+    const sizesEl = document.getElementById('pd-sizes');
+    if (sizesEl) {
+        if (product.sizes && product.sizes.length > 0) {
+            sizesEl.innerHTML = product.sizes.map((s, i) =>
+                `<button type="button" class="size-chip${i===0?' active':''}" data-size="${s}" style="padding:0.4rem 1rem; border-radius:8px; border:2px solid var(--primary-color); background:${i===0?'var(--primary-color)':'transparent'}; color:white; cursor:pointer; font-weight:700;">${s}</button>`
+            ).join('');
+            sizesEl.querySelectorAll('.size-chip').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    sizesEl.querySelectorAll('.size-chip').forEach(c => {
+                        c.classList.remove('active');
+                        c.style.background = 'transparent';
+                    });
+                    chip.classList.add('active');
+                    chip.style.background = 'var(--primary-color)';
+                });
             });
-            window.showToast(currentQty + 'x ' + product.name + ' added to cart!');
-            
-            e.target.style.transform = 'scale(0.95)';
-            setTimeout(() => e.target.style.transform = '', 150);
+        } else {
+            sizesEl.parentElement.style.display = 'none';
         }
-    });
+    }
+
+    let currentQty = 1;
+    if (qtyEl) qtyEl.textContent = currentQty;
+
+    // Remove old event listeners by cloning
+    if (minusBtn) {
+        const newMinus = minusBtn.cloneNode(true);
+        minusBtn.parentNode.replaceChild(newMinus, minusBtn);
+        newMinus.addEventListener('click', () => {
+            if (currentQty > 1) { currentQty--; if (qtyEl) qtyEl.textContent = currentQty; }
+        });
+    }
+    if (plusBtn) {
+        const newPlus = plusBtn.cloneNode(true);
+        plusBtn.parentNode.replaceChild(newPlus, plusBtn);
+        newPlus.addEventListener('click', () => {
+            currentQty++;
+            if (qtyEl) qtyEl.textContent = currentQty;
+        });
+    }
+    if (addBtn) {
+        const newAdd = addBtn.cloneNode(true);
+        addBtn.parentNode.replaceChild(newAdd, addBtn);
+        newAdd.addEventListener('click', () => {
+            if (window.Store) {
+                window.Store.addToCart({
+                    productId: product.id,
+                    variantId: product.id,
+                    name: product.name,
+                    price: Number(product.price) || 0,
+                    qty: currentQty,
+                    imageUrl: product.imageUrl || 'images/logo.png',
+                    category: product.category
+                });
+                if (window.showToast) window.showToast(currentQty + 'x ' + product.name + ' added to cart!');
+                newAdd.style.transform = 'scale(0.95)';
+                setTimeout(() => newAdd.style.transform = '', 150);
+            }
+        });
+    }
+
+    // Load suggestions (other products)
+    const sugGrid = document.getElementById('pd-sug-grid');
+    if (sugGrid && window.Database) {
+        const all = await window.Database.getProducts();
+        const others = all.filter(p => p.id !== product.id).slice(0, 4);
+        sugGrid.innerHTML = others.map(p =>
+            `<a href="#/product/${p.id}" class="sug-card" style="text-decoration:none; color:inherit; background:rgba(255,255,255,0.05); border-radius:16px; overflow:hidden; display:flex; flex-direction:column; transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform=''">
+                <img src="${p.imageUrl || 'images/logo.png'}" style="width:100%; height:160px; object-fit:cover;" onerror="this.src='images/logo.png'">
+                <div style="padding:1rem;">
+                    <div style="font-size:0.75rem; opacity:0.5; font-weight:700; text-transform:uppercase;">${p.category}</div>
+                    <div style="font-weight:800; margin:0.3rem 0;">${p.name}</div>
+                    <div style="color:var(--primary-color); font-weight:700;">₹${Number(p.price).toFixed(2)}</div>
+                </div>
+            </a>`
+        ).join('');
+    }
+
+    // Hide loader, show content
+    if (loader) loader.style.display = 'none';
+    if (mainView) mainView.style.display = '';
 };
 
 
 
+// From pages/products.html
 
-// ── Shop Page ─────────────────────────────────────────────
-(function shopPage() {
-        const getGrid = () => document.getElementById('shop-grid');
-        const getSearch = () => document.getElementById('shop-search');
-        const getFilterContainer = () => document.getElementById('category-filters');
+    (function shopPage() {
+        const grid = document.getElementById('shop-grid');
+        const searchInp = document.getElementById('shop-search');
+        const filterContainer = document.getElementById('category-filters');
+        let chips = [];
+        if (filterContainer) {
+            chips = filterContainer.querySelectorAll('.chip');
+        }
 
         let allProducts = [];
         let currentCat = 'all';
         let searchQuery = '';
-        let setupDone = false;
+
+        async function initShop() {
+            if (!window.Database) return;
+
+            if (grid) grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:5rem; opacity:0.5;">Loading flavors...</div>';
+
+            allProducts = await window.Database.getProducts();
+            render();
+
+            if (searchInp) {
+                searchInp.addEventListener('input', (e) => {
+                    searchQuery = e.target.value.toLowerCase();
+                    render();
+                });
+            }
+
+            if (chips && chips.length > 0) {
+                chips.forEach(chip => {
+                    chip.addEventListener('click', () => {
+                        chips.forEach(c => c.classList.remove('active'));
+                        chip.classList.add('active');
+                        currentCat = chip.dataset.cat;
+                        render();
+                    });
+                });
+            }
+        }
 
         function render() {
-            const grid = getGrid();
             if (!grid) return;
             const filtered = allProducts.filter(p => {
                 const matchesCat = currentCat === 'all' || p.category === currentCat;
@@ -124,19 +205,13 @@ window.renderProductDetails = async function(productId) {
                 return matchesCat && matchesSearch;
             });
 
-            if (filtered.length === 0) {
-                grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:5rem; opacity:0.5;">No products found.</div>';
-                return;
-            }
-
             let html = '';
             filtered.forEach((p, i) => {
                 const soonBadge = p.isComingSoon ? '<span class="p-badge" style="background:#facc15; color:#000;">Soon</span>' : '';
                 const featBadge = p.isFeatured ? '<span class="p-badge" style="right:auto; left:1.2rem;">Featured</span>' : '';
                 const price = Number(p.price).toFixed(2);
                 
-                html += '<div class="p-card">'
-                     + '<a href="#/product/' + p.id + '" style="text-decoration:none; color:inherit; display:flex; flex-direction:column; height:100%;">'
+                html += '<div class="p-card" onclick="window.location.hash=\'#/product/' + p.id + '\'" style="cursor:pointer;">'
                      + '<div class="p-img-wrap">'
                      + soonBadge + featBadge
                      + '<img src="' + p.imageUrl + '" class="p-img" alt="' + p.name + '" onerror="this.src=\'images/logo.png\';">'
@@ -144,51 +219,16 @@ window.renderProductDetails = async function(productId) {
                      + '<div class="p-body">'
                      + '<span class="p-cat">' + p.category + '</span>'
                      + '<h3 class="p-name">' + p.name + '</h3>'
-                     + '<div class="p-price">\u20B9' + price + '</div>'
+                     + '<div class="p-price">₹' + price + '</div>'
                      + '</div>'
-                     + '</a>'
                      + '<div class="p-overlay">'
-                     + '<button class="add-btn" onclick="addToCart(event, \'' + p.id + '\')">'
+                     + '<button class="add-btn" onclick="event.stopPropagation(); addToCart(event, \'' + p.id + '\')">'
                      + (p.isComingSoon ? 'Notify Me' : 'Add to Cart')
                      + '</button>'
                      + '</div>'
                      + '</div>';
             });
             grid.innerHTML = html;
-        }
-
-        async function initShop() {
-            if (!window.Database) return;
-
-            const grid = getGrid();
-            if (grid) grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:5rem; opacity:0.5;">Loading flavors...</div>';
-
-            allProducts = await window.Database.getProducts();
-            render();
-
-            if (!setupDone) {
-                setupDone = true;
-                const searchInp = getSearch();
-                if (searchInp) {
-                    searchInp.addEventListener('input', (e) => {
-                        searchQuery = e.target.value.toLowerCase();
-                        render();
-                    });
-                }
-
-                const filterContainer = getFilterContainer();
-                if (filterContainer) {
-                    const chips = filterContainer.querySelectorAll('.chip');
-                    chips.forEach(chip => {
-                        chip.addEventListener('click', () => {
-                            chips.forEach(c => c.classList.remove('active'));
-                            chip.classList.add('active');
-                            currentCat = chip.dataset.cat;
-                            render();
-                        });
-                    });
-                }
-            }
         }
 
         // Global helper for add to cart
@@ -219,17 +259,8 @@ window.renderProductDetails = async function(productId) {
             }
         };
 
-        // Expose globally for router
-        window.initShopPage = initShop;
-
-        // Run after DOM is fully ready so the grid is accessible
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initShop);
-        } else {
-            initShop();
-        }
+        initShop();
     })();
-
 
 (function cartPage() {
     var root  = document.getElementById('cart-root');
@@ -242,7 +273,17 @@ window.renderProductDetails = async function(productId) {
 
     function render() {
         var cart = getCart();
-        // empty cart check removed
+        if (cart.length === 0) {
+            root.innerHTML =
+                '<h1 class="cart-title">Your Cart</h1>'
+              + '<div class="cart-empty">'
+              + '<div class="icon">🛒</div>'
+              + '<h2>Your cart is empty</h2>'
+              + '<p>Looks like you haven\'t added anything yet.</p>'
+              + '<a href="#/products" class="btn-shop">Browse Products</a>'
+              + '</div>';
+            return;
+        }
 
         var totals   = Store.getCartTotals();
         var subtotal = totals.subtotal;
@@ -285,42 +326,43 @@ window.renderProductDetails = async function(productId) {
           + '</div>'
           + '</div>';
 
-        // Event delegation
-        root.addEventListener('click', function(e) {
-            var btn = e.target.closest('[data-action]');
-            if (!btn) {
-                if (e.target.id === 'go-checkout') {
-                    window.location.hash = '#/checkout';
-                }
-                return;
-            }
-            var action = btn.dataset.action;
-            var idx    = parseInt(btn.dataset.idx);
-            var cart2  = Store.getState().cart;
-            var item   = cart2[idx];
-            if (!item) return;
-
-            if (action === 'plus') {
-                Store.addToCart({ productId: item.productId, variantId: item.variantId, qty: 1, price: item.price, name: item.name, variantName: item.variantName, imageUrl: item.imageUrl });
-            } else if (action === 'minus') {
-                if (item.qty > 1) {
-                    var updated = Store.getState().cart.map(function(c, i) {
-                        if (i === idx) return Object.assign({}, c, { qty: c.qty - 1 });
-                        return c;
-                    });
-                    Store.setState({ cart: updated });
-                    Store.saveCart();
-                    Store.updateCartBadge();
-                } else {
-                    Store.removeFromCart(item.productId, item.variantId);
-                }
-            } else if (action === 'remove') {
-                Store.removeFromCart(item.productId, item.variantId);
-            }
-            render();
-        });
     }
 
+    root.addEventListener('click', function(e) {
+        var btn = e.target.closest('[data-action]');
+        if (!btn) {
+            if (e.target.id === 'go-checkout') {
+                window.location.hash = '#/checkout';
+            }
+            return;
+        }
+        var action = btn.dataset.action;
+        var idx    = parseInt(btn.dataset.idx);
+        var cart2  = Store.getState().cart;
+        var item   = cart2[idx];
+        if (!item) return;
+
+        if (action === 'plus') {
+            Store.addToCart({ productId: item.productId, variantId: item.variantId, qty: 1, price: item.price, name: item.name, variantName: item.variantName, imageUrl: item.imageUrl });
+        } else if (action === 'minus') {
+            if (item.qty > 1) {
+                var updated = Store.getState().cart.map(function(c, i) {
+                    if (i === idx) return Object.assign({}, c, { qty: c.qty - 1 });
+                    return c;
+                });
+                Store.setState({ cart: updated });
+                Store.saveCart();
+                Store.updateCartBadge();
+            } else {
+                Store.removeFromCart(item.productId, item.variantId);
+            }
+        } else if (action === 'remove') {
+            Store.removeFromCart(item.productId, item.variantId);
+        }
+        render();
+    });
+
+    window.renderCart = render;
     render();
 
     if (window.gsap) {
@@ -446,7 +488,12 @@ window.renderProductDetails = async function(productId) {
             }
 
             // Nav
-            document.getElementById('btn-next-1').addEventListener('click', () => {
+            const btnNext1 = document.getElementById('btn-next-1');
+            const btnBack1 = document.getElementById('btn-back-1');
+            const btnNext2 = document.getElementById('btn-next-2');
+            const btnBack2 = document.getElementById('btn-back-2');
+
+            if (btnNext1) btnNext1.addEventListener('click', () => {
                 const name = document.getElementById('co-name').value.trim();
                 const email = document.getElementById('co-email-input').value.trim();
                 const phone = document.getElementById('co-phone').value.trim();
@@ -458,9 +505,9 @@ window.renderProductDetails = async function(productId) {
                 goStep(2);
             });
 
-            document.getElementById('btn-back-1').addEventListener('click', () => goStep(1));
+            if (btnBack1) btnBack1.addEventListener('click', () => goStep(1));
 
-            document.getElementById('btn-next-2').addEventListener('click', () => {
+            if (btnNext2) btnNext2.addEventListener('click', () => {
                 const addr = document.getElementById('co-address').value.trim();
                 const city = document.getElementById('co-city').value.trim();
                 const pin = document.getElementById('co-pin').value.trim();
@@ -473,9 +520,28 @@ window.renderProductDetails = async function(productId) {
                 setupUpi();
             });
 
-            document.getElementById('btn-back-2').addEventListener('click', () => goStep(2));
+            if (btnBack2) btnBack2.addEventListener('click', () => goStep(2));
 
             // ── Razorpay Integration ──────────────────────────────────────
+            
+            window.simulateTestPayment = () => {
+                const totals = Store.getCartTotals();
+                const btn = document.getElementById('btn-test-order');
+                if (btn) {
+                    btn.disabled = true;
+                    btn.innerHTML = 'Simulating...';
+                }
+                
+                if (window.showToast) window.showToast('Simulating Payment...', 'ok');
+                setTimeout(() => {
+                    if (window.showToast) window.showToast('Payment Successful (Test Mode)!', 'ok');
+                    
+                    // Call finalizeOrder directly bypassing Razorpay
+                    const mockPaymentId = 'TEST_' + Math.random().toString(36).substr(2, 9).toUpperCase();
+                    finalizeOrder(mockPaymentId, 'Simulated Test', totals.total);
+                }, 1000);
+            };
+
             window.initRazorpay = (preferredMethod) => {
                 const totals = Store.getCartTotals();
                 const amountInPaise = Math.round(totals.total * 100);
@@ -573,8 +639,7 @@ window.renderProductDetails = async function(productId) {
                         // Send Email Notification via EmailJS
                         if (window.emailjs) {
                             // Format the list of items for the email body
-                            const itemsList = safeCart.map(item => `- ${item.name} (Qty: ${item.qty})`).join('
-');
+                            const itemsList = safeCart.map(item => `- ${item.name} (Qty: ${item.qty})`).join('\n');
 
                             const templateParams = {
                                 customer_name: customer.name,
@@ -721,11 +786,39 @@ window.renderProductDetails = async function(productId) {
                 if (s.id === `view-${target}`) s.classList.remove('hidden');
                 else s.classList.add('hidden');
             });
+            if (target === 'inventory' && window.renderAdminInventory) {
+                window.renderAdminInventory();
+            }
         });
     });
 
+    // ── Inventory View ───────────────────────────────────
+    window.renderAdminInventory = async function() {
+        const grid = document.getElementById('inventoryGrid');
+        if (!grid || !window.Database) return;
+        grid.innerHTML = '<div style="text-align:center; padding:3rem; opacity:0.5;">Loading inventory...</div>';
+        const products = await window.Database.getProducts();
+        if (!products.length) {
+            grid.innerHTML = '<div style="text-align:center; padding:3rem; opacity:0.5;">No products found. Use Sync Cloud Products to load data.</div>';
+            return;
+        }
+        grid.innerHTML = products.map(p => `
+            <div class="kpi-card">
+                <div style="display:flex; gap:1rem; align-items:center; margin-bottom:1rem;">
+                    <img src="${p.imageUrl || 'images/logo.png'}" alt="${p.name}" style="width:64px; height:64px; object-fit:cover; border-radius:12px;" onerror="this.src='images/logo.png'">
+                    <div>
+                        <div style="font-weight:800;">${p.name}</div>
+                        <div style="font-size:0.8rem; opacity:0.6;">${p.category || 'General'}</div>
+                    </div>
+                </div>
+                <div style="font-size:1.4rem; font-weight:900; color:var(--primary);">₹${Number(p.price).toFixed(2)}</div>
+            </div>
+        `).join('');
+    };
+
     // ── Simulation ──────────────────────────────────────
-    document.getElementById('simulateOrder').addEventListener('click', async () => {
+    const simulateBtn = document.getElementById('simulateOrder');
+    if (simulateBtn) simulateBtn.addEventListener('click', async () => {
         const testData = {
             customer: { name: "Test User", phone: "9876543210", address: "123 Demo St" },
             items: [{ id: "pani-puri-mint", name: "Pani Puri Masala", price: 15, qty: 2 }],
@@ -738,7 +831,8 @@ window.renderProductDetails = async function(productId) {
 
     function renderSheet(orders) {
         const tbody = document.getElementById('ordersBody');
-        const q = document.getElementById('orderSearch').value.toLowerCase();
+        const searchEl = document.getElementById('orderSearch');
+        const q = searchEl ? searchEl.value.toLowerCase() : '';
         
         const filtered = orders.filter(o => 
             o.id.toLowerCase().includes(q) || 
@@ -769,9 +863,11 @@ window.renderProductDetails = async function(productId) {
     }
 
     // ── Search & Tools ───────────────────────────────────
-    document.getElementById('orderSearch').addEventListener('input', () => renderSheet(_orders));
+    const orderSearch = document.getElementById('orderSearch');
+    if (orderSearch) orderSearch.addEventListener('input', () => renderSheet(_orders));
 
-    document.getElementById('exportBtn').addEventListener('click', () => {
+    const exportBtn = document.getElementById('exportBtn');
+    if (exportBtn) exportBtn.addEventListener('click', () => {
         if (_orders.length === 0) return;
         const csv = [
             ["Order ID", "Date", "Customer", "Phone", "Total", "Status"].join(","),
@@ -794,7 +890,8 @@ window.renderProductDetails = async function(productId) {
     });
 
     // ── Database Seeder ──────────────────────────────────
-    document.getElementById('seedDbBtn').addEventListener('click', async function() {
+    const seedDbBtn = document.getElementById('seedDbBtn');
+    if (seedDbBtn) seedDbBtn.addEventListener('click', async function() {
         this.disabled = true;
         this.textContent = "Syncing...";
         try {

@@ -62,14 +62,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const leftBlock = document.querySelector('.flavor-selector-block');
   const rightBlock = document.querySelector('.moment-block');
   
-  // Interactive Menu Toggle (Subtle micro-interaction placeholder)
+  // Interactive Menu Toggle
   const menuBtn = document.getElementById('menu-btn');
-  if (menuBtn) {
+  const navMenu = document.querySelector('.nav-menu');
+  if (menuBtn && navMenu) {
     menuBtn.addEventListener('click', () => {
-      // Small rotation & state change for burger bars
       const bars = menuBtn.querySelectorAll('.bar');
-      menuBtn.classList.toggle('open');
-      if (menuBtn.classList.contains('open')) {
+      const isOpen = menuBtn.classList.toggle('open');
+      navMenu.classList.toggle('open', isOpen);
+      document.body.classList.toggle('menu-open', isOpen);
+      if (isOpen) {
         bars[0].style.width = '24px';
         bars[1].style.width = '24px';
         bars[0].style.transform = 'translateY(4px) rotate(45deg)';
@@ -80,6 +82,19 @@ document.addEventListener('DOMContentLoaded', () => {
         bars[0].style.transform = 'none';
         bars[1].style.transform = 'none';
       }
+    });
+
+    navMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        menuBtn.classList.remove('open');
+        navMenu.classList.remove('open');
+        document.body.classList.remove('menu-open');
+        const bars = menuBtn.querySelectorAll('.bar');
+        bars[0].style.width = '24px';
+        bars[1].style.width = '16px';
+        bars[0].style.transform = 'none';
+        bars[1].style.transform = 'none';
+      });
     });
   }
 
@@ -163,6 +178,14 @@ document.addEventListener('DOMContentLoaded', () => {
       switchProduct(selectedProduct);
     });
   });
+
+  window.switchHomeProduct = (productId) => {
+    const dockItem = document.querySelector(`.dock-item[data-product="${productId}"]`);
+    if (!dockItem || dockItem.classList.contains('active')) return;
+    dockItems.forEach(d => d.classList.remove('active'));
+    dockItem.classList.add('active');
+    switchProduct(productId);
+  };
 
   // Highlight navigation header link changes
   const navLinks = document.querySelectorAll('.nav-link');

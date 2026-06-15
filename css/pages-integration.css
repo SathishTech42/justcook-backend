@@ -1,47 +1,69 @@
 ﻿/* =================================================================
-   SPA VIEW BASE — All injected page views must be dark like home
+   SPA VIEW BASE — Match home page warm gradient background
    ================================================================= */
-.spa-view {
-    background: linear-gradient(135deg, #1a0a00 0%, #2d1206 100%);
-    color: white !important;
-    min-height: 100vh;
+.spa-view,
+#view-products,
+#view-cart,
+#view-checkout,
+#view-admin,
+#view-product-details,
+#view-contact {
+    background: var(--bg-gradient) !important;
+    color: var(--text-main) !important;
+    min-height: auto;
     position: relative;
 }
 
-.spa-view * {
-    color: inherit;
+.jc-shop-page,
+.jc-shop-header,
+.cart-page,
+.co-page,
+.jc-admin-page,
+.pd-final-section {
+    background: transparent !important;
 }
 
-.spa-view h1, .spa-view h2, .spa-view h3, .spa-view h4 {
-    color: white;
+:root {
+    --primary: var(--primary-color);
+    --border: rgba(74, 45, 29, 0.12);
+    --bg: transparent;
+    --card: rgba(255, 255, 255, 0.55);
+    --text: var(--text-main);
 }
 
-.spa-view p, .spa-view span, .spa-view label, .spa-view td, .spa-view th {
-    color: rgba(255,255,255,0.85);
+.spa-view h1,
+.spa-view h2,
+.spa-view h3,
+.spa-view h4 {
+    color: var(--text-main);
 }
 
-/* Ensure sections that host spa views also have dark bg */
-#view-products, #view-cart, #view-checkout, #view-admin, #view-product-details {
-    background: linear-gradient(135deg, #1a0a00 0%, #2d1206 100%) !important;
-    color: white !important;
+.spa-view p,
+.spa-view span,
+.spa-view label,
+.spa-view td,
+.spa-view th {
+    color: var(--text-secondary);
 }
 
-/* Fix input/form colors inside dark views */
-.spa-view input, .spa-view select, .spa-view textarea {
-    color: white;
-    background: rgba(255,255,255,0.07);
-    border-color: rgba(255,255,255,0.12);
+.spa-view input,
+.spa-view select,
+.spa-view textarea {
+    color: var(--text-main);
+    background: rgba(255, 255, 255, 0.7);
+    border-color: var(--border);
 }
 
-.spa-view input::placeholder, .spa-view textarea::placeholder {
-    color: rgba(255,255,255,0.3);
+.spa-view input::placeholder,
+.spa-view textarea::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.7;
 }
 
-/* Spinner color fix */
 .spinner {
     width: 40px;
     height: 40px;
-    border: 3px solid rgba(255,255,255,0.2);
+    border: 3px solid rgba(74, 45, 29, 0.1);
     border-top-color: var(--primary-color);
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
@@ -49,17 +71,10 @@
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-:root {
-    --primary: var(--primary-color);
-    --border: rgba(0, 0, 0, 0.08);
-    --bg: transparent;
-    --card: rgba(255, 255, 255, 0.45);
-    --text: var(--text-main);
-}
-
 /* Force titles to use the home display font */
 .shop-title, .cart-title, .co-title, .admin-h1 {
     font-family: var(--font-display) !important;
+    color: var(--primary-color) !important;
 }
 
 
@@ -69,12 +84,16 @@
    JustCook â€” Premium Shop Page
    ============================================================ */
 
+    .jc-shop-page {
+        padding-bottom: 2rem;
+    }
+
     .jc-shop-header {
-        padding: 6rem 0 4rem;
+        padding: 2rem 0 1.5rem;
         text-align: center;
         position: relative;
         overflow: hidden;
-        background: radial-gradient(circle at 50% 0%, rgba(255, 90, 95, 0.05) 0%, transparent 70%);
+        background: transparent;
     }
 
     .shop-blob {
@@ -111,14 +130,14 @@
     .shop-subtitle {
         opacity: 0.5;
         max-width: 600px;
-        margin: 0 auto 3rem;
+        margin: 0 auto 1.5rem;
         font-size: 1.1rem;
     }
 
     /* Search & Filters */
     .shop-controls {
         max-width: 1000px;
-        margin: 0 auto 4rem;
+        margin: 0 auto 1.5rem;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -193,8 +212,8 @@
     .products-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 2.5rem;
-        padding-bottom: 8rem;
+        gap: 2rem;
+        padding-bottom: 2rem;
     }
 
     .p-card {
@@ -1191,56 +1210,60 @@
    CONTACT PAGE — Home-style layout with full responsive support
    ================================================================ */
 
-/* Wrapper for the whole view */
 .contact-page-view {
   padding-top: 110px;
   padding-bottom: 6rem;
   min-height: 100vh;
   position: relative;
   overflow: hidden;
+  background: var(--bg-gradient);
 }
 
-/* Two-column grid — side by side on desktop */
 .contact-grid {
   display: grid;
   grid-template-columns: 1.4fr 1fr;
-  gap: 4rem;
+  gap: 3rem;
   max-width: 1300px;
   width: 90%;
   margin: 0 auto;
   position: relative;
   z-index: 10;
-  padding-top: 2rem;
+  padding-top: 1rem;
 }
 
-/* Each column */
 .contact-col {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
-/* Title */
 .contact-title {
-  font-size: clamp(3.5rem, 7vw, 7rem) !important;
-  line-height: 1 !important;
-  transform: none !important;
-  opacity: 1 !important;
-  margin-bottom: 1rem;
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 8vw, 6.5rem);
+  line-height: 0.95;
+  color: var(--primary-color);
+  letter-spacing: 2px;
+  margin-bottom: 0.5rem;
 }
 
-/* Glassmorphic card for the form */
 .contact-glass-card {
-  background: rgba(15, 15, 15, 0.7);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 24px;
   padding: 2.5rem;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
 }
 
-/* Form layout */
+.contact-card-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 1.5rem;
+  text-transform: none;
+}
+
 .contact-form {
   display: flex;
   flex-direction: column;
@@ -1255,40 +1278,40 @@
 
 .contact-label {
   font-family: var(--font-body);
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.6);
-  letter-spacing: 0.5px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  letter-spacing: 1px;
   text-transform: uppercase;
 }
 
 .contact-input {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 0.9rem 1.1rem;
-  color: white;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 0.95rem 1.1rem;
+  color: var(--text-main);
   font-family: var(--font-body);
   font-size: 1rem;
   outline: none;
-  transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+  transition: border-color 0.3s, box-shadow 0.3s;
   width: 100%;
   box-sizing: border-box;
 }
 
 .contact-input:focus {
   border-color: var(--primary-color);
-  background: rgba(255, 255, 255, 0.07);
-  box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.12);
+  box-shadow: 0 0 0 4px var(--accent-light);
 }
 
 .contact-input::placeholder {
-  color: rgba(255, 255, 255, 0.25);
+  color: var(--text-secondary);
+  opacity: 0.6;
 }
 
 .contact-textarea {
   resize: vertical;
-  min-height: 110px;
+  min-height: 120px;
 }
 
 .contact-submit {
@@ -1298,45 +1321,60 @@
   gap: 0.6rem;
   padding: 1.1rem;
   font-size: 1rem;
-  border-radius: 14px;
+  border-radius: 99px;
   margin-top: 0.5rem;
   border: none;
   cursor: pointer;
   letter-spacing: 1px;
+  text-transform: uppercase;
   background: var(--primary-color);
   color: white;
   font-weight: 700;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
 }
 
 .contact-submit:hover {
-  transform: scale(1.02);
-  box-shadow: 0 10px 30px rgba(230, 57, 70, 0.4);
+  transform: translateY(-2px);
+  background: var(--primary-hover);
+  box-shadow: 0 10px 30px var(--shadow-color);
 }
 
-/* Info cards on the right */
+.contact-info-panel {
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 24px;
+  padding: 2.5rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+}
+
+.contact-info-heading {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 2rem;
+  text-transform: none;
+}
+
 .contact-info-card {
   display: flex;
   align-items: flex-start;
   gap: 1.2rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 16px;
-  padding: 1.5rem;
-  transition: background 0.3s, transform 0.3s;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border);
 }
 
-.contact-info-card:hover {
-  background: rgba(255, 255, 255, 0.06);
-  transform: translateX(4px);
+.contact-info-card:last-of-type {
+  border-bottom: none;
 }
 
 .contact-info-icon {
   width: 44px;
   height: 44px;
-  border-radius: 12px;
-  background: rgba(230, 57, 70, 0.15);
-  border: 1px solid rgba(230, 57, 70, 0.25);
+  border-radius: 50%;
+  background: var(--accent-light);
+  border: 1px solid rgba(227, 67, 22, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1346,21 +1384,27 @@
 }
 
 .contact-info-label {
-  font-family: var(--font-heading);
+  font-family: var(--font-body);
   font-size: 1rem;
-  letter-spacing: 1px;
-  margin-bottom: 0.3rem;
-  color: white;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+  color: var(--text-main);
 }
 
 .contact-info-text {
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-secondary);
   font-size: 0.95rem;
-  line-height: 1.5;
+  line-height: 1.6;
   margin: 0;
 }
 
-/* Social buttons row */
+.contact-social-heading {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 2rem 0 1rem;
+}
+
 .contact-social-row {
   display: flex;
   gap: 1rem;
@@ -1368,18 +1412,18 @@
 }
 
 .contact-social-btn {
-  width: 52px;
-  height: 52px;
+  width: 50px;
+  height: 50px;
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: var(--text-main);
   text-decoration: none;
-  font-size: 1.4rem;
-  transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+  font-size: 1.3rem;
+  transition: background 0.3s, transform 0.2s, box-shadow 0.3s, color 0.3s;
 }
 
 .contact-social-btn:hover {
@@ -1388,16 +1432,19 @@
 
 .contact-social-btn.whatsapp:hover {
   background: #25D366;
+  color: white;
   box-shadow: 0 8px 20px rgba(37, 211, 102, 0.35);
 }
 
 .contact-social-btn.instagram:hover {
   background: var(--primary-color);
-  box-shadow: 0 8px 20px rgba(230, 57, 70, 0.35);
+  color: white;
+  box-shadow: 0 8px 20px var(--shadow-color);
 }
 
 .contact-social-btn.location:hover {
   background: #4facfe;
+  color: white;
   box-shadow: 0 8px 20px rgba(79, 172, 254, 0.35);
 }
 
@@ -1413,6 +1460,31 @@
     padding-top: 100px;
     padding-bottom: 4rem;
   }
+
+  .cart-layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  .co-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2.5rem !important;
+  }
+
+  .pd-main-grid {
+    grid-template-columns: 1fr !important;
+    gap: 3rem !important;
+    text-align: center;
+  }
+
+  .pd-stage {
+    position: relative !important;
+    top: auto !important;
+  }
+
+  .revolution-container {
+    flex-direction: column;
+    text-align: center;
+  }
 }
 
 /* -- MOBILE (max 768px) ------------------------------------- */
@@ -1423,117 +1495,94 @@
   }
 
   .contact-grid {
-    grid-template-columns: 1fr;
-    gap: 2rem;
     width: 94%;
-    padding-top: 1rem;
+    gap: 2rem;
+  }
+
+  .contact-glass-card,
+  .contact-info-panel {
+    padding: 1.75rem;
+    border-radius: 20px;
   }
 
   .contact-title {
-    font-size: clamp(2.5rem, 12vw, 4rem) !important;
+    font-size: clamp(2.5rem, 12vw, 4rem);
   }
 
-  .contact-glass-card {
-    padding: 1.8rem;
+  .contact-input,
+  .contact-textarea {
+    font-size: 16px;
   }
 
-  .contact-info-card {
-    padding: 1.2rem;
+  .products-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 1rem !important;
+    padding-bottom: 1.5rem !important;
   }
 
-  .contact-social-btn {
-    width: 48px;
-    height: 48px;
-    font-size: 1.2rem;
+  .kpi-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  .co-card {
+    padding: 2rem 1.5rem !important;
+    border-radius: 28px !important;
+  }
+
+  .co-stepper {
+    margin-bottom: 3rem !important;
+  }
+
+  .btn-order-header {
+    display: none;
+  }
+
+  .jc-shop-header {
+    padding: 1.5rem 0 1rem !important;
+  }
+
+  .filter-chips {
+    gap: 0.5rem !important;
+  }
+
+  .chip {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.8rem !important;
   }
 }
 
-/* -- SMALL MOBILE (max 480px) ------------------------------- */
 @media (max-width: 480px) {
-  .contact-glass-card {
+  .contact-page-view {
+    padding-top: 80px;
+  }
+
+  .contact-grid {
+    width: 92%;
+    padding-top: 0;
+  }
+
+  .contact-glass-card,
+  .contact-info-panel {
     padding: 1.4rem;
-    border-radius: 18px;
-  }
-
-  .contact-input {
-    padding: 0.8rem 1rem;
-    font-size: 0.95rem;
-  }
-
-  .contact-submit {
-    padding: 1rem;
-    font-size: 0.95rem;
   }
 
   .contact-title {
-    font-size: clamp(2rem, 10vw, 3rem) !important;
+    font-size: clamp(2rem, 14vw, 3rem);
   }
-}
 
+  .products-grid {
+    grid-template-columns: 1fr !important;
+  }
 
-/* ================================================================
-   CONTACT PAGE RESPONSIVE — Mobile / Tablet / Desktop
-   ================================================================ */
+  .kpi-grid {
+    grid-template-columns: 1fr !important;
+  }
 
-/* On mobile, stack the two hero-side columns vertically */
-@media (max-width: 900px) {
-    #view-contact .hero-container {
-        flex-direction: column !important;
-        padding: 1.5rem 1.5rem !important;
-        gap: 2rem !important;
-    }
+  .cart-item {
+    grid-template-columns: 72px 1fr !important;
+  }
 
-    #view-contact .hero-side {
-        width: 100% !important;
-        min-width: unset !important;
-        flex: none !important;
-    }
-
-    #view-contact .giant-title-part {
-        font-size: clamp(2.8rem, 10vw, 5rem) !important;
-    }
-
-    #view-contact .flavor-selector-block {
-        max-width: 100% !important;
-        padding: 1.8rem !important;
-    }
-}
-
-@media (max-width: 480px) {
-    #view-contact {
-        padding-top: 80px !important;
-    }
-
-    #view-contact .hero-container {
-        padding: 1rem !important;
-    }
-
-    #view-contact .giant-title-part {
-        font-size: clamp(2.2rem, 12vw, 3.5rem) !important;
-    }
-
-    #view-contact .flavor-selector-block {
-        padding: 1.4rem !important;
-        border-radius: 18px !important;
-    }
-
-    #view-contact input,
-    #view-contact textarea {
-        font-size: 16px !important; /* prevents iOS zoom */
-        padding: 0.8rem 1rem !important;
-    }
-}
-
-/* Products and Cart grid responsive */
-@media (max-width: 768px) {
-    .products-grid {
-        grid-template-columns: 1fr 1fr !important;
-        gap: 1rem !important;
-    }
-}
-
-@media (max-width: 480px) {
-    .products-grid {
-        grid-template-columns: 1fr !important;
-    }
+  .co-title {
+    font-size: clamp(2rem, 8vw, 2.8rem) !important;
+  }
 }

@@ -91,6 +91,11 @@ html, body {
   z-index: 100;
 }
 
+/* Utility */
+.hidden {
+  display: none !important;
+}
+
 /* Custom Hamburger Icon */
 .menu-toggle {
   background: none;
@@ -1074,13 +1079,67 @@ html, body {
   }
 }
 
+@media (max-width: 1024px) {
+  .revolution-container {
+    flex-direction: column;
+    text-align: center;
+    gap: 2.5rem;
+  }
+
+  .revolution-title {
+    font-size: clamp(2rem, 6vw, 3rem);
+  }
+
+  .signature-collection {
+    padding: 4rem 5%;
+  }
+}
+
 @media (max-width: 768px) {
   .main-header {
     padding: 1.5rem 5%;
   }
   
   .nav-menu {
-    display: none; /* In a real app we'd trigger a slide menu on menu-toggle click */
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    background: rgba(253, 251, 250, 0.97);
+    backdrop-filter: blur(16px);
+    z-index: 99;
+    padding: 2rem;
+  }
+
+  .nav-menu.open {
+    display: flex;
+  }
+
+  .nav-menu.open .nav-link {
+    font-size: 1.25rem;
+    color: var(--text-main);
+  }
+
+  body.menu-open {
+    overflow: hidden;
+  }
+
+  .site-footer {
+    display: none;
+  }
+
+  .revolution-section {
+    padding-bottom: 6rem;
+  }
+
+  .hero-bottom {
+    margin-bottom: 5rem;
   }
   
   .side-title {
