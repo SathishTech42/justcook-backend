@@ -1,3 +1,53 @@
+﻿/* =================================================================
+   SPA VIEW BASE — All injected page views must be dark like home
+   ================================================================= */
+.spa-view {
+    background: linear-gradient(135deg, #1a0a00 0%, #2d1206 100%);
+    color: white !important;
+    min-height: 100vh;
+    position: relative;
+}
+
+.spa-view * {
+    color: inherit;
+}
+
+.spa-view h1, .spa-view h2, .spa-view h3, .spa-view h4 {
+    color: white;
+}
+
+.spa-view p, .spa-view span, .spa-view label, .spa-view td, .spa-view th {
+    color: rgba(255,255,255,0.85);
+}
+
+/* Ensure sections that host spa views also have dark bg */
+#view-products, #view-cart, #view-checkout, #view-admin, #view-product-details {
+    background: linear-gradient(135deg, #1a0a00 0%, #2d1206 100%) !important;
+    color: white !important;
+}
+
+/* Fix input/form colors inside dark views */
+.spa-view input, .spa-view select, .spa-view textarea {
+    color: white;
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(255,255,255,0.12);
+}
+
+.spa-view input::placeholder, .spa-view textarea::placeholder {
+    color: rgba(255,255,255,0.3);
+}
+
+/* Spinner color fix */
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(255,255,255,0.2);
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
 
 :root {
     --primary: var(--primary-color);
@@ -16,7 +66,7 @@
 /* From pages/products.html */
 
     /* ============================================================
-   JustCook — Premium Shop Page
+   JustCook â€” Premium Shop Page
    ============================================================ */
 
     .jc-shop-header {
@@ -411,7 +461,7 @@
 /* From pages/checkout.html */
 
     /* ============================================================
-   JustCook — Checkout Page (Premium Everest Animations)
+   JustCook â€” Checkout Page (Premium Everest Animations)
    ============================================================ */
 
     .co-page {
@@ -838,7 +888,7 @@
 /* From pages/admin.html */
 
 /* ============================================================
-   JustCook — Ultra-Realtime Admin Dashboard & "Sheet" View
+   JustCook â€” Ultra-Realtime Admin Dashboard & "Sheet" View
    ============================================================ */
 
 .jc-admin-page { padding: 2rem 0 8rem; min-height: 100vh; background: var(--bg); }
@@ -1138,7 +1188,7 @@
 }
 
 /* ================================================================
-   CONTACT PAGE � Home-style layout with full responsive support
+   CONTACT PAGE — Home-style layout with full responsive support
    ================================================================ */
 
 /* Wrapper for the whole view */
@@ -1150,7 +1200,7 @@
   overflow: hidden;
 }
 
-/* Two-column grid � side by side on desktop */
+/* Two-column grid — side by side on desktop */
 .contact-grid {
   display: grid;
   grid-template-columns: 1.4fr 1fr;
@@ -1418,4 +1468,72 @@
   .contact-title {
     font-size: clamp(2rem, 10vw, 3rem) !important;
   }
+}
+
+
+/* ================================================================
+   CONTACT PAGE RESPONSIVE — Mobile / Tablet / Desktop
+   ================================================================ */
+
+/* On mobile, stack the two hero-side columns vertically */
+@media (max-width: 900px) {
+    #view-contact .hero-container {
+        flex-direction: column !important;
+        padding: 1.5rem 1.5rem !important;
+        gap: 2rem !important;
+    }
+
+    #view-contact .hero-side {
+        width: 100% !important;
+        min-width: unset !important;
+        flex: none !important;
+    }
+
+    #view-contact .giant-title-part {
+        font-size: clamp(2.8rem, 10vw, 5rem) !important;
+    }
+
+    #view-contact .flavor-selector-block {
+        max-width: 100% !important;
+        padding: 1.8rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    #view-contact {
+        padding-top: 80px !important;
+    }
+
+    #view-contact .hero-container {
+        padding: 1rem !important;
+    }
+
+    #view-contact .giant-title-part {
+        font-size: clamp(2.2rem, 12vw, 3.5rem) !important;
+    }
+
+    #view-contact .flavor-selector-block {
+        padding: 1.4rem !important;
+        border-radius: 18px !important;
+    }
+
+    #view-contact input,
+    #view-contact textarea {
+        font-size: 16px !important; /* prevents iOS zoom */
+        padding: 0.8rem 1rem !important;
+    }
+}
+
+/* Products and Cart grid responsive */
+@media (max-width: 768px) {
+    .products-grid {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 1rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .products-grid {
+        grid-template-columns: 1fr !important;
+    }
 }

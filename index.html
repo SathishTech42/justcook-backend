@@ -1355,105 +1355,119 @@
     <!-- ═══════════════════════════════════════════════
          CONTACT VIEW — Mirrors Home Hero Aesthetic
     ════════════════════════════════════════════════ -->
-    <main id="view-contact" class="hero-section contact-page-view" style="display:none;">
+    <main id="view-contact" class="hero-section" style="display:none; background:linear-gradient(135deg,#1a0a00 0%,#2d1206 100%); color:white; min-height:100vh; position:relative; overflow:hidden; padding-top:100px; padding-bottom:6rem;">
 
-      <!-- Giant BG text — same as home page -->
+      <!-- Giant BG text exactly like home -->
       <div class="giant-bg-text-container">
         <div class="giant-bg-text text-left">GET IN</div>
         <div class="giant-bg-text text-right">TOUCH</div>
       </div>
 
-      <!-- Animated floating droplets — same as home -->
-      <div class="droplets-container" style="position:absolute; inset:0; pointer-events:none; z-index:1;">
+      <!-- Floating droplets exactly like home -->
+      <div class="droplets-container" style="position:absolute;inset:0;pointer-events:none;z-index:1;">
         <span class="droplet size-lg pos-3"></span>
         <span class="droplet size-md pos-5"></span>
         <span class="droplet size-sm pos-7"></span>
         <span class="droplet size-md pos-2"></span>
       </div>
 
-      <!-- Main content grid -->
-      <div class="contact-grid">
+      <!-- Hero container — identical structure to home -->
+      <div class="hero-container" style="z-index:10; position:relative; flex-wrap:wrap; gap:3rem; align-items:flex-start; padding: 2rem 4rem;">
 
-        <!-- LEFT: Title + Form -->
-        <div class="contact-col contact-col-form">
-          <div class="giant-title-wrapper">
-            <h1 class="giant-title-part contact-title">CONTACT</h1>
+        <!-- LEFT: giant title + contact form -->
+        <div class="hero-side side-left" style="flex:1.4; min-width:300px; width:100%; display:flex; flex-direction:column; gap:2rem; justify-content:flex-start; align-items:flex-start; transform:none; opacity:1;">
+
+          <div class="giant-title-wrapper" style="margin-bottom:0.5rem;">
+            <h1 class="giant-title-part" style="font-size:clamp(3.5rem,7vw,7rem); line-height:1; transform:none; opacity:1; color:white;">CONTACT</h1>
           </div>
 
-          <div class="contact-glass-card">
-            <h3 class="side-title" style="text-transform:none; margin-bottom:1.8rem; font-size:1.4rem;">Send us a Message</h3>
-            <form id="contact-form" class="contact-form" onsubmit="event.preventDefault(); if(window.showToast) window.showToast('Message sent! We\'ll reply soon. ✅'); this.reset();">
-              <div class="contact-field">
-                <label class="contact-label">Your Name</label>
-                <input type="text" name="name" placeholder="e.g. Arjun Kumar" required class="contact-input">
+          <div class="flavor-selector-block" style="transform:none; opacity:1; width:100%; max-width:520px; background:rgba(10,5,0,0.75); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); border:1px solid rgba(255,255,255,0.08); border-radius:24px; padding:2.5rem; box-shadow:0 25px 60px rgba(0,0,0,0.6);">
+            <h3 class="side-title" style="color:white; text-transform:none; font-size:1.4rem; margin-bottom:1.8rem;">Send us a Message</h3>
+
+            <form id="contact-form" onsubmit="event.preventDefault(); if(window.showToast) window.showToast('Message sent! We will reply soon.'); this.reset();" style="display:flex; flex-direction:column; gap:1.2rem;">
+
+              <div style="display:flex; flex-direction:column; gap:0.4rem;">
+                <label style="font-size:0.8rem; font-weight:700; color:rgba(255,255,255,0.5); letter-spacing:1px; text-transform:uppercase;">Your Name</label>
+                <input type="text" name="name" placeholder="e.g. Arjun Kumar" required style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:0.9rem 1.1rem; color:white; font-family:var(--font-body); font-size:1rem; outline:none; transition:0.3s; width:100%; box-sizing:border-box;" onfocus="this.style.borderColor='var(--primary-color)'; this.style.background='rgba(255,255,255,0.08)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'; this.style.background='rgba(255,255,255,0.05)'">
               </div>
-              <div class="contact-field">
-                <label class="contact-label">Phone Number</label>
-                <input type="tel" name="phone" placeholder="e.g. 98404 62831" required class="contact-input" pattern="[0-9]{10}">
+
+              <div style="display:flex; flex-direction:column; gap:0.4rem;">
+                <label style="font-size:0.8rem; font-weight:700; color:rgba(255,255,255,0.5); letter-spacing:1px; text-transform:uppercase;">Phone Number</label>
+                <input type="tel" name="phone" placeholder="e.g. 98404 62831" required style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:0.9rem 1.1rem; color:white; font-family:var(--font-body); font-size:1rem; outline:none; transition:0.3s; width:100%; box-sizing:border-box;" onfocus="this.style.borderColor='var(--primary-color)'; this.style.background='rgba(255,255,255,0.08)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'; this.style.background='rgba(255,255,255,0.05)'">
               </div>
-              <div class="contact-field">
-                <label class="contact-label">Email (optional)</label>
-                <input type="email" name="email" placeholder="you@example.com" class="contact-input">
+
+              <div style="display:flex; flex-direction:column; gap:0.4rem;">
+                <label style="font-size:0.8rem; font-weight:700; color:rgba(255,255,255,0.5); letter-spacing:1px; text-transform:uppercase;">Your Message</label>
+                <textarea name="message" placeholder="Tell us how we can help..." rows="4" required style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:0.9rem 1.1rem; color:white; font-family:var(--font-body); font-size:1rem; outline:none; resize:vertical; transition:0.3s; width:100%; box-sizing:border-box;" onfocus="this.style.borderColor='var(--primary-color)'; this.style.background='rgba(255,255,255,0.08)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'; this.style.background='rgba(255,255,255,0.05)'"></textarea>
               </div>
-              <div class="contact-field">
-                <label class="contact-label">Your Message</label>
-                <textarea name="message" placeholder="Tell us how we can help..." rows="4" required class="contact-input contact-textarea"></textarea>
-              </div>
-              <button type="submit" class="btn btn-action contact-submit">
-                <span>Send Message</span>
-                <i class="fas fa-paper-plane" style="margin-left:0.6rem;"></i>
+
+              <button type="submit" class="btn btn-action" style="background:var(--primary-color); color:white; border:none; padding:1.1rem; border-radius:14px; font-size:1rem; font-weight:700; cursor:pointer; letter-spacing:1px; display:flex; align-items:center; justify-content:center; gap:0.6rem; transition:transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='scale(1.02)'; this.style.boxShadow='0 12px 30px rgba(230,57,70,0.4)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">
+                SEND MESSAGE &nbsp;<i class="fas fa-paper-plane"></i>
               </button>
+
             </form>
           </div>
         </div>
 
-        <!-- RIGHT: Info cards + Social -->
-        <div class="contact-col contact-col-info">
+        <!-- RIGHT: info + social exactly like home side-right -->
+        <div class="hero-side side-right" style="flex:1; min-width:280px; display:flex; flex-direction:column; gap:1.5rem; justify-content:flex-start; align-items:flex-start; transform:none; opacity:1;">
 
-          <div class="contact-info-card">
-            <div class="contact-info-icon"><i class="fas fa-map-marker-alt"></i></div>
-            <div>
-              <h4 class="contact-info-label">Address</h4>
-              <p class="contact-info-text">Elli Sathiram Road, Sriram Nagar<br>Villupuram, TN 605602</p>
+          <div class="moment-block" style="transform:none; opacity:1; width:100%;">
+            <h3 class="side-title" style="color:var(--primary-color); font-size:1.8rem; text-transform:none; margin-bottom:2rem;">Visit Us</h3>
+
+            <!-- Address -->
+            <div style="display:flex; align-items:flex-start; gap:1.2rem; margin-bottom:1.8rem; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:16px; padding:1.3rem; transition:background 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.06)'" onmouseout="this.style.background='rgba(255,255,255,0.03)'">
+              <div style="width:42px;height:42px;border-radius:12px;background:rgba(230,57,70,0.15);border:1px solid rgba(230,57,70,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <i class="fas fa-map-marker-alt" style="color:var(--primary-color);font-size:1.1rem;"></i>
+              </div>
+              <div>
+                <h4 style="font-family:var(--font-display);font-size:1rem;letter-spacing:1px;margin-bottom:0.3rem;color:white;">ADDRESS</h4>
+                <p style="color:rgba(255,255,255,0.65);font-size:0.95rem;line-height:1.5;margin:0;">Elli Sathiram Road, Sriram Nagar<br>Villupuram, TN 605602</p>
+              </div>
             </div>
-          </div>
 
-          <div class="contact-info-card">
-            <div class="contact-info-icon"><i class="fas fa-phone-alt"></i></div>
-            <div>
-              <h4 class="contact-info-label">Phone</h4>
-              <p class="contact-info-text"><a href="tel:+919840462831" style="color:inherit; text-decoration:none;">+91 98404 62831</a></p>
+            <!-- Phone -->
+            <div style="display:flex; align-items:flex-start; gap:1.2rem; margin-bottom:1.8rem; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:16px; padding:1.3rem; transition:background 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.06)'" onmouseout="this.style.background='rgba(255,255,255,0.03)'">
+              <div style="width:42px;height:42px;border-radius:12px;background:rgba(230,57,70,0.15);border:1px solid rgba(230,57,70,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <i class="fas fa-phone-alt" style="color:var(--primary-color);font-size:1.1rem;"></i>
+              </div>
+              <div>
+                <h4 style="font-family:var(--font-display);font-size:1rem;letter-spacing:1px;margin-bottom:0.3rem;color:white;">PHONE</h4>
+                <p style="color:rgba(255,255,255,0.65);font-size:0.95rem;margin:0;"><a href="tel:+919840462831" style="color:inherit;text-decoration:none;">+91 98404 62831</a></p>
+              </div>
             </div>
-          </div>
 
-          <div class="contact-info-card">
-            <div class="contact-info-icon"><i class="fas fa-envelope"></i></div>
-            <div>
-              <h4 class="contact-info-label">Email</h4>
-              <p class="contact-info-text"><a href="mailto:Justcook32@gmail.com" style="color:inherit; text-decoration:none;">Justcook32@gmail.com</a></p>
+            <!-- Email -->
+            <div style="display:flex; align-items:flex-start; gap:1.2rem; margin-bottom:2rem; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:16px; padding:1.3rem; transition:background 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.06)'" onmouseout="this.style.background='rgba(255,255,255,0.03)'">
+              <div style="width:42px;height:42px;border-radius:12px;background:rgba(230,57,70,0.15);border:1px solid rgba(230,57,70,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <i class="fas fa-envelope" style="color:var(--primary-color);font-size:1.1rem;"></i>
+              </div>
+              <div>
+                <h4 style="font-family:var(--font-display);font-size:1rem;letter-spacing:1px;margin-bottom:0.3rem;color:white;">EMAIL</h4>
+                <p style="color:rgba(255,255,255,0.65);font-size:0.95rem;margin:0;"><a href="mailto:Justcook32@gmail.com" style="color:inherit;text-decoration:none;">Justcook32@gmail.com</a></p>
+              </div>
             </div>
+
+            <!-- Social buttons -->
+            <h4 style="font-family:var(--font-display);font-size:1rem;letter-spacing:2px;margin-bottom:1rem;color:rgba(255,255,255,0.5);">CONNECT WITH US</h4>
+            <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:2rem;">
+              <a href="https://wa.me/919840462831" target="_blank" style="width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;color:white;text-decoration:none;font-size:1.4rem;transition:all 0.3s;" onmouseover="this.style.background='#25D366';this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 20px rgba(37,211,102,0.4)'" onmouseout="this.style.background='rgba(255,255,255,0.05)';this.style.transform='none';this.style.boxShadow='none'"><i class="fab fa-whatsapp"></i></a>
+              <a href="https://www.instagram.com/justcook.in" target="_blank" style="width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;color:white;text-decoration:none;font-size:1.4rem;transition:all 0.3s;" onmouseover="this.style.background='#e34316';this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 20px rgba(230,57,70,0.4)'" onmouseout="this.style.background='rgba(255,255,255,0.05)';this.style.transform='none';this.style.boxShadow='none'"><i class="fab fa-instagram"></i></a>
+              <a href="https://maps.app.goo.gl/9y7LetSw1GHmf5Lq5?g_st=aw" target="_blank" style="width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;color:white;text-decoration:none;font-size:1.4rem;transition:all 0.3s;" onmouseover="this.style.background='#4facfe';this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 20px rgba(79,172,254,0.4)'" onmouseout="this.style.background='rgba(255,255,255,0.05)';this.style.transform='none';this.style.boxShadow='none'"><i class="fas fa-map-marker-alt"></i></a>
+            </div>
+
+            <!-- WhatsApp Order CTA -->
+            <a href="https://wa.me/919840462831?text=Hi%20JustCook!%20I%20want%20to%20place%20an%20order." target="_blank" class="btn btn-action" style="background:#25D366;color:white;display:flex;align-items:center;justify-content:center;gap:0.7rem;padding:1rem;border-radius:14px;font-weight:700;font-size:1rem;text-decoration:none;width:100%;box-sizing:border-box;letter-spacing:0.5px;transition:transform 0.2s,box-shadow 0.2s;" onmouseover="this.style.transform='scale(1.02)';this.style.boxShadow='0 12px 30px rgba(37,211,102,0.4)'" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='none'">
+              <i class="fab fa-whatsapp" style="font-size:1.2rem;"></i> Order on WhatsApp
+            </a>
           </div>
-
-          <!-- Social row -->
-          <div class="contact-social-row">
-            <a href="https://wa.me/919840462831" target="_blank" class="contact-social-btn whatsapp" title="WhatsApp">
-              <i class="fab fa-whatsapp"></i>
-            </a>
-            <a href="https://www.instagram.com/justcook.in" target="_blank" class="contact-social-btn instagram" title="Instagram">
-              <i class="fab fa-instagram"></i>
-            </a>
-            <a href="https://maps.app.goo.gl/9y7LetSw1GHmf5Lq5?g_st=aw" target="_blank" class="contact-social-btn location" title="Google Maps">
-              <i class="fas fa-map-marker-alt"></i>
-            </a>
-          </div>
-
-          <!-- Order on WhatsApp shortcut -->
-          <a href="https://wa.me/919840462831?text=Hi%20JustCook!%20I%20want%20to%20place%20an%20order." target="_blank" class="btn btn-action" style="margin-top:2rem; display:inline-flex; align-items:center; gap:0.7rem; background:#25D366; width:100%; justify-content:center;">
-            <i class="fab fa-whatsapp"></i> Order on WhatsApp
-          </a>
-
         </div>
+
       </div>
+
+      <!-- Pointer lines like home page -->
+      <div class="pointer-line line-left" style="position:absolute;bottom:8%;left:4%;"><span class="line-dot"></span></div>
+      <div class="pointer-line line-right" style="position:absolute;bottom:8%;right:4%;"><span class="line-dot"></span></div>
 
     </main>
 
