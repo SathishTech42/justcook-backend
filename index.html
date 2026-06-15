@@ -1,379 +1,1899 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="JustCook - The Future of Food E-commerce">
-    <title>JustCook | 3D + AR Food E-commerce</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flavor Pop - Premium Fried Chicken & More</title>
+  <meta name="description" content="Premium food crafted your way. Choose your flavor, enjoy the moment, and order now.">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/pages-integration.css">
 
-    <!-- External Libraries -->
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Injected Page Styles -->
+    <style>/* From products.html */
 
-    <!-- Leaflet.js -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    /* ============================================================
+   JustCook — Premium Shop Page
+   ============================================================ */
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/components.css">
-    <link rel="stylesheet" href="css/mobile.css">
-    <link rel="stylesheet" href="https://unpkg.com/swiper@11/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="css/home-page.css" />
+    .jc-shop-header {
+        padding: 6rem 0 4rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        background: radial-gradient(circle at 50% 0%, rgba(255, 90, 95, 0.05) 0%, transparent 70%);
+    }
 
-    <link rel="icon" href="images/logo.png" type="image/x-icon">
-    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
-</head>
+    .shop-blob {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.1;
+        z-index: -1;
+    }
 
-<body class="light-theme">
-    <!-- Navbar -->
-    <nav id="navbar" class="navbar" style="position: fixed; top: 1.5rem; left: 50%; transform: translateX(-50%); width: 95%; max-width: 1200px; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 24px; z-index: 1000; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); height: 74px; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: center; justify-content: space-between; padding: 0 2rem;">
-        <div class="nav-brand">
-            <a href="#/" style="display: flex; align-items: center; text-decoration: none;">
-                <img src="images/logo.png" alt="JustCook Logo" style="height: 50px; width: auto; object-fit: contain;">
-            </a>
-        </div>
-        
-        <!-- Desktop Links -->
-        <div class="nav-links desktop-only" id="navLinks" style="display: flex; gap: 2.5rem; align-items: center;">
-            <a href="#/" class="nav-link active" style="font-weight: 700; font-size: 0.95rem; opacity: 0.9; text-decoration: none; color: inherit;">Home</a>
-            <a href="#/products" class="nav-link" style="font-weight: 700; font-size: 0.95rem; opacity: 0.6; text-decoration: none; color: inherit;">Shop</a>
-            <a href="#/contact" class="nav-link" style="font-weight: 700; font-size: 0.95rem; opacity: 0.6; text-decoration: none; color: inherit;">Contact</a>
-        </div>
+    .sb-1 {
+        width: 400px;
+        height: 400px;
+        top: -100px;
+        left: -100px;
+        background: var(--primary);
+    }
 
-        <div class="nav-actions" style="display: flex; gap: 0.8rem; align-items: center;">
-            <a href="#/cart" class="icon-btn cart-btn" style="width: 44px; height: 44px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; transition: 0.3s; position: relative; box-shadow: 0 8px 20px rgba(255, 90, 95, 0.3); text-decoration: none;">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-                <span id="cart-count" class="badge" style="position: absolute; top: -5px; right: -5px; background: #fff; color: var(--primary); font-size: 0.7rem; font-weight: 900; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--primary);">0</span>
-            </a>
-            <!-- Mobile Menu Toggle -->
-            <button id="mobile-menu-btn" class="icon-btn mobile-only" style="width: 44px; height: 44px; border-radius: 50%; background: rgba(0,0,0,0.05); display: none; align-items: center; justify-content: center; transition: 0.3s;">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-            </button>
-        </div>
-    </nav>
+    .sb-2 {
+        width: 300px;
+        height: 300px;
+        bottom: 0;
+        right: -50px;
+        background: #6366f1;
+    }
 
-    <!-- Mobile Navigation Overlay -->
-    <div id="mobile-nav-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.98); backdrop-filter: blur(20px); z-index: 2000; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; opacity: 0; transition: 0.4s;">
-        <button id="close-mobile-btn" style="position: absolute; top: 2rem; right: 2rem; width: 50px; height: 50px; border-radius: 50%; background: rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-        </button>
-        <a href="#/" class="mobile-link" style="font-size: 2rem; font-weight: 900; text-decoration: none; color: inherit;">Home</a>
-        <a href="#/products" class="mobile-link" style="font-size: 2rem; font-weight: 900; text-decoration: none; color: inherit;">Shop</a>
-        <a href="#/contact" class="mobile-link" style="font-size: 2rem; font-weight: 900; text-decoration: none; color: inherit;">Contact</a>
-    </div>
+    .shop-title {
+        font-size: clamp(2.5rem, 6vw, 4rem);
+        font-weight: 900;
+        margin-bottom: 1rem;
+        letter-spacing: -0.03em;
+    }
 
-    <style>
-        @media (max-width: 768px) {
-            .desktop-only { display: none !important; }
-            .mobile-only { display: flex !important; }
-            /* Native App Header Style */
-            .navbar { 
-                padding: 0 1rem !important; 
-                height: 60px !important; 
-                top: 0 !important; 
-                width: 100% !important; 
-                max-width: 100% !important;
-                border-radius: 0 !important;
-                border: none !important;
-                box-shadow: 0 4px 15px rgba(0,0,0,0.05) !important;
-                justify-content: center !important;
-                background: rgba(255, 255, 255, 0.98) !important;
-            }
-            .nav-brand img { height: 35px !important; }
-            .pd-main-grid { grid-template-columns: 1fr !important; gap: 2rem !important; }
-            
-            .nav-actions { display: none !important; }
-            
-            /* Hide the footer entirely on mobile for a true native app feel */
-            .footer { display: none !important; }
-            
-            /* Native App Layout & Scrolling */
-            body { 
-                padding-bottom: 70px !important; 
-                padding-top: 60px !important; /* Offset for the fixed top navbar */
-                overscroll-behavior-y: auto;
-                -webkit-tap-highlight-color: transparent;
-                background-color: #f8fafc; /* Optional: forces a clean background */
-            }
-            
-            /* Hide scrollbars for a cleaner app look */
-            ::-webkit-scrollbar {
-                display: none;
-            }
-            * {
-                scrollbar-width: none;
-            }
-            
-            .mobile-taskbar {
-                display: flex !important;
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                width: 100%;
-                background: rgba(255, 255, 255, 0.95);
-                backdrop-filter: blur(20px);
-                border-top: 1px solid rgba(0, 0, 0, 0.05);
-                z-index: 9999;
-                padding: 0.5rem 0;
-                justify-content: space-around;
-                align-items: center;
-                box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05);
-                padding-bottom: env(safe-area-inset-bottom, 0.5rem);
-            }
-            .taskbar-item {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                text-decoration: none;
-                color: #64748b;
-                font-size: 0.7rem;
-                font-weight: 600;
-                gap: 0.3rem;
-                transition: color 0.3s;
-            }
-            .taskbar-item i { font-size: 1.2rem; }
-            .taskbar-item.active { color: var(--primary); }
-            .taskbar-badge {
-                position: absolute;
-                top: -5px;
-                right: -10px;
-                background: var(--primary);
-                color: white;
-                font-size: 0.6rem;
-                font-weight: 800;
-                width: 16px;
-                height: 16px;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
+    .shop-subtitle {
+        opacity: 0.5;
+        max-width: 600px;
+        margin: 0 auto 3rem;
+        font-size: 1.1rem;
+    }
+
+    /* Search & Filters */
+    .shop-controls {
+        max-width: 1000px;
+        margin: 0 auto 4rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    .search-wrap {
+        width: 100%;
+        max-width: 500px;
+        position: relative;
+    }
+
+    .search-input {
+        width: 100%;
+        padding: 1.2rem 1.5rem 1.2rem 3.5rem;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        color: var(--text);
+        font-size: 1rem;
+        font-weight: 600;
+        transition: all 0.3s;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+    }
+
+    .search-input:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 15px 40px rgba(255, 90, 95, 0.1);
+    }
+
+    .search-icon {
+        position: absolute;
+        left: 1.2rem;
+        top: 50%;
+        transform: translateY(-50%);
+        opacity: 0.4;
+    }
+
+    .filter-chips {
+        display: flex;
+        gap: 0.8rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .chip {
+        padding: 0.6rem 1.5rem;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 99px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s;
+        color: var(--text);
+    }
+
+    .chip:hover {
+        border-color: var(--primary);
+        transform: translateY(-2px);
+    }
+
+    .chip.active {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+        box-shadow: 0 8px 20px rgba(230, 57, 70, 0.3);
+    }
+
+    /* Product Grid */
+    .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 2.5rem;
+        padding-bottom: 8rem;
+    }
+
+    .p-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 32px;
+        overflow: hidden;
+        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .p-card:hover {
+        transform: translateY(-15px);
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.08);
+        border-color: var(--primary);
+    }
+
+    .p-img-wrap {
+        height: 280px;
+        overflow: hidden;
+        position: relative;
+        background: #f8fafc;
+    }
+
+    .p-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    .p-card:hover .p-img {
+        transform: scale(1.1);
+    }
+
+    .p-badge {
+        position: absolute;
+        top: 1.2rem;
+        right: 1.2rem;
+        padding: 0.4rem 1rem;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(5px);
+        border-radius: 99px;
+        font-size: 0.75rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        color: var(--primary);
+        z-index: 2;
+    }
+
+    .p-body {
+        padding: 2rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .p-cat {
+        font-size: 0.75rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        opacity: 0.4;
+        letter-spacing: 1.5px;
+        margin-bottom: 0.5rem;
+    }
+
+    .p-name {
+        font-size: 1.25rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        line-height: 1.2;
+    }
+
+    .p-price {
+        font-size: 1.5rem;
+        font-weight: 900;
+        color: var(--primary);
+        margin-top: auto;
+    }
+
+    .p-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 2rem;
+        background: linear-gradient(to top, var(--card), transparent);
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.4s;
+        display: flex;
+        justify-content: center;
+    }
+
+    .p-card:hover .p-overlay {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .add-btn {
+        width: 100%;
+        padding: 1rem;
+        background: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 18px;
+        font-weight: 800;
+        cursor: pointer;
+        box-shadow: 0 10px 20px rgba(230, 57, 70, 0.3);
+        transition: all 0.3s;
+    }
+
+    .add-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 15px 30px rgba(230, 57, 70, 0.4);
+    }
+
+    @media (max-width: 768px) {
+        .p-overlay {
+            position: static;
+            opacity: 1;
+            transform: none;
+            background: none;
+            padding-top: 1.5rem;
         }
-    </style>
 
-    <!-- Main Content Container -->
-    <main id="app-root">
-        <!-- Dynamic content goes here -->
-        <div class="loader-container">
-            <div class="spinner"></div>
-            <p>Loading the future...</p>
+        .p-card {
+            border-radius: 24px;
+        }
+    }
+
+    </style>
+    <style>/* From cart.html */
+
+/* ===== Cart Page ===== */
+.cart-page { padding: 4rem 0 6rem; }
+.cart-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    margin-bottom: 3rem;
+}
+.cart-layout {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 3rem;
+    align-items: start;
+}
+@media(max-width:900px){ .cart-layout{ grid-template-columns:1fr; } }
+
+/* Items */
+.cart-items { display: flex; flex-direction: column; gap: 1.5rem; }
+.cart-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 1.5rem;
+    display: grid;
+    grid-template-columns: 100px 1fr auto;
+    gap: 1.5rem;
+    align-items: center;
+    transition: border-color 0.3s;
+}
+@media(max-width: 600px) {
+    .cart-item {
+        grid-template-columns: 80px 1fr;
+        gap: 1rem;
+        padding: 1.2rem;
+    }
+    .cart-item__img { width: 80px; height: 80px; }
+    .cart-item__controls { 
+        grid-column: span 2; 
+        flex-direction: row; 
+        justify-content: space-between; 
+        align-items: center;
+        padding-top: 1rem;
+        border-top: 1px solid var(--border);
+    }
+    .cart-title { margin-bottom: 2rem; }
+    .cart-page { padding: 3rem 0 5rem; }
+}
+.cart-item:hover { border-color: var(--primary); }
+.cart-item__img {
+    width: 100px; height: 100px;
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--bg);
+    flex-shrink: 0;
+}
+.cart-item__img img { width:100%; height:100%; object-fit:cover; display:block; }
+.cart-item__info h3 { font-size:1.1rem; font-weight:700; margin-bottom:0.3rem; }
+.cart-item__info .cat { font-size:0.8rem; color:var(--primary); text-transform:uppercase; letter-spacing:1px; font-weight:600; }
+.cart-item__price { font-size:1.2rem; font-weight:700; color:var(--primary); margin-top:0.5rem; }
+
+.cart-item__controls { display:flex; flex-direction:column; align-items:flex-end; gap:1rem; }
+.qty-row { display:flex; align-items:center; background:var(--bg); border:1px solid var(--border); border-radius:99px; padding:0.2rem; }
+.cqty-btn {
+    width:36px; height:36px;
+    border:none; background:transparent; color:var(--text);
+    font-size:1.2rem; cursor:pointer; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    transition: background 0.2s;
+}
+.cqty-btn:hover { background:var(--border); }
+.cqty-num { width:40px; text-align:center; font-weight:700; font-size:1rem; }
+.remove-btn {
+    border:none; background:none; color:#ef4444;
+    font-size:0.85rem; font-weight:600; cursor:pointer;
+    opacity:0.7; transition:opacity 0.2s;
+}
+.remove-btn:hover { opacity:1; }
+
+/* Summary */
+.cart-summary {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 2rem;
+    position: sticky;
+    top: 100px;
+}
+.cart-summary h2 { font-size:1.4rem; font-weight:800; margin-bottom:1.5rem; }
+.summary-row {
+    display:flex; justify-content:space-between;
+    font-size:0.95rem; opacity:0.8; margin-bottom:0.8rem;
+}
+.summary-row.total {
+    font-size:1.3rem; font-weight:800; opacity:1;
+    border-top:1px solid var(--border); padding-top:1rem; margin-top:0.5rem;
+}
+.summary-row.total span:last-child { color:var(--primary); }
+
+.btn-checkout {
+    width:100%; margin-top:1.5rem;
+    background:var(--primary); color:#fff;
+    border:none; border-radius:99px;
+    font-size:1.05rem; font-weight:700;
+    padding:1rem; cursor:pointer;
+    transition:transform 0.3s, box-shadow 0.3s;
+    box-shadow:0 5px 20px rgba(255,90,95,0.4);
+}
+.btn-checkout:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(255,90,95,0.6); }
+.btn-checkout:disabled { background:var(--border); color:#888; cursor:not-allowed; transform:none; box-shadow:none; }
+
+.cart-empty {
+    text-align:center; padding:6rem 2rem;
+    display:flex; flex-direction:column; align-items:center; gap:1.5rem;
+}
+.cart-empty .icon { font-size:5rem; }
+.cart-empty h2 { font-size:1.8rem; font-weight:800; }
+.cart-empty p { opacity:0.6; }
+.btn-shop {
+    background:var(--primary); color:#fff;
+    border:none; border-radius:99px;
+    padding:0.9rem 2.5rem; font-weight:700; font-size:1rem;
+    cursor:pointer; text-decoration:none;
+    transition:transform 0.3s;
+}
+.btn-shop:hover { transform:translateY(-2px); }
+
+    </style>
+    <style>/* From checkout.html */
+
+    /* ============================================================
+   JustCook — Checkout Page (Premium Everest Animations)
+   ============================================================ */
+
+    .co-page {
+        padding: 6rem 0 10rem;
+        position: relative;
+        z-index: 1;
+        overflow: hidden;
+    }
+
+    /* Dynamic background elements */
+    .co-blob {
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+        filter: blur(80px);
+        opacity: 0.15;
+        z-index: -1;
+    }
+
+    .co-blob-1 {
+        width: 500px;
+        height: 500px;
+        top: -150px;
+        left: -150px;
+        background: var(--primary);
+    }
+
+    .co-blob-2 {
+        width: 400px;
+        height: 400px;
+        bottom: -100px;
+        right: -100px;
+        background: #6366f1;
+    }
+
+    .co-blob-3 {
+        width: 250px;
+        height: 250px;
+        top: 30%;
+        right: 10%;
+        background: #facc15;
+    }
+
+    .co-title {
+        font-size: clamp(2.8rem, 6vw, 4rem);
+        font-weight: 900;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        letter-spacing: -0.03em;
+        background: linear-gradient(135deg, var(--text) 30%, var(--primary) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .co-subtitle {
+        text-align: center;
+        opacity: 0.5;
+        margin-bottom: 4rem;
+        font-size: 1.1rem;
+    }
+
+    /* Progress Stepper */
+    .co-stepper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        max-width: 600px;
+        margin: 0 auto 5rem;
+        position: relative;
+    }
+
+    .co-step-item {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        z-index: 2;
+        flex: 1;
+    }
+
+    .co-step-dot {
+        width: 50px;
+        height: 50px;
+        background: var(--card);
+        border: 2px solid var(--border);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 1.1rem;
+        color: var(--text);
+        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        margin-bottom: 0.8rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .co-step-line {
+        position: absolute;
+        top: 25px;
+        left: calc(50% + 25px);
+        width: calc(100% - 50px);
+        height: 2px;
+        background: var(--border);
+        z-index: 1;
+    }
+
+    .co-step-item.active .co-step-dot {
+        background: var(--primary);
+        border-color: var(--primary);
+        color: white;
+        transform: scale(1.2);
+        box-shadow: 0 10px 25px rgba(230, 57, 70, 0.4);
+    }
+
+    .co-step-item.done .co-step-dot {
+        background: #22c55e;
+        border-color: #22c55e;
+        color: white;
+    }
+
+    .co-step-label {
+        font-size: 0.85rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        opacity: 0.4;
+        transition: opacity 0.3s;
+    }
+
+    .co-step-item.active .co-step-label,
+    .co-step-item.done .co-step-label {
+        opacity: 1;
+    }
+
+    /* Main Grid */
+    .co-grid {
+        display: grid;
+        grid-template-columns: 1.8fr 1fr;
+        gap: 4rem;
+        align-items: start;
+    }
+
+    /* Panels */
+    .co-panels {
+        position: relative;
+    }
+
+    .co-panel {
+        display: none;
+        animation: panelEnter 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    }
+
+    .co-panel.active {
+        display: block;
+    }
+
+    @keyframes panelEnter {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .co-card {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 40px;
+        padding: 3.5rem;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.06);
+    }
+
+    .dark-theme .co-card {
+        background: rgba(15, 23, 42, 0.7);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .co-card h2 {
+        font-size: 1.8rem;
+        font-weight: 800;
+        margin-bottom: 2.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    /* Inputs */
+    .co-group {
+        margin-bottom: 2rem;
+    }
+
+    .co-label {
+        display: block;
+        font-size: 0.75rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        margin-bottom: 0.8rem;
+        opacity: 0.6;
+    }
+
+    .co-input {
+        width: 100%;
+        padding: 1.2rem 1.5rem;
+        background: var(--bg);
+        border: 2px solid var(--border);
+        border-radius: 20px;
+        color: var(--text);
+        font-size: 1.05rem;
+        font-weight: 600;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .co-input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 5px rgba(230, 57, 70, 0.1);
+        outline: none;
+        transform: scale(1.02);
+    }
+
+    .co-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+    }
+
+    /* Summary */
+    .co-sidebar {
+        position: sticky;
+        top: 6rem;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 40px;
+        padding: 3rem;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.04);
+    }
+
+    /* Mobile Overrides */
+    @media (max-width: 992px) {
+        .co-grid {
+            grid-template-columns: 1fr;
+            gap: 3rem;
+        }
+
+        .co-sidebar {
+            position: static;
+            padding: 2rem;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .co-page {
+            padding: 4rem 0 6rem;
+        }
+
+        .co-card {
+            padding: 2.5rem 1.5rem;
+            border-radius: 30px;
+        }
+
+        .co-step-label {
+            font-size: 0.7rem;
+        }
+
+        .co-step-dot {
+            width: 34px;
+            height: 34px;
+            font-size: 0.9rem;
+        }
+
+        .co-step-line {
+            width: calc(100% - 34px);
+            left: 17px;
+        }
+
+        .co-card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+    }
+
+    .co-sidebar h3 {
+        font-size: 1.4rem;
+        font-weight: 800;
+        margin-bottom: 2rem;
+    }
+
+    .co-sum-item {
+        display: flex;
+        gap: 1.2rem;
+        margin-bottom: 1.5rem;
+        align-items: center;
+    }
+
+    .co-sum-img {
+        width: 70px;
+        height: 70px;
+        border-radius: 18px;
+        object-fit: cover;
+        background: var(--bg);
+        border: 1px solid var(--border);
+    }
+
+    .co-sum-info {
+        flex: 1;
+    }
+
+    .co-sum-info b {
+        display: block;
+        font-size: 1rem;
+        margin-bottom: 0.2rem;
+    }
+
+    .co-sum-info p {
+        font-size: 0.85rem;
+        opacity: 0.5;
+    }
+
+    .co-sum-price {
+        font-weight: 800;
+        color: var(--primary);
+    }
+
+    .co-line {
+        margin: 2rem 0;
+        border: none;
+        border-top: 2px dashed var(--border);
+    }
+
+    .co-total-box {
+        margin-top: 1.5rem;
+    }
+
+    .co-row-t {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+        font-weight: 600;
+        font-size: 1rem;
+    }
+
+    .co-row-t.big {
+        font-size: 1.8rem;
+        font-weight: 900;
+        margin-top: 1.5rem;
+        color: var(--primary);
+    }
+
+    /* Buttons */
+    .co-btn {
+        width: 100%;
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 1.3rem;
+        border-radius: 24px;
+        font-size: 1.1rem;
+        font-weight: 800;
+        cursor: pointer;
+        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 15px 30px rgba(230, 57, 70, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.8rem;
+    }
+
+    .co-btn:hover {
+        transform: translateY(-8px) scale(1.03);
+        box-shadow: 0 25px 50px rgba(230, 57, 70, 0.45);
+    }
+
+    .co-btn-secondary {
+        background: var(--bg);
+        color: var(--text);
+        border: 2px solid var(--border);
+        box-shadow: none;
+    }
+
+    .co-btn-secondary:hover {
+        background: var(--border);
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    /* UPI Success animation */
+    .co-success-card {
+        text-align: center;
+        padding: 5rem 3rem;
+    }
+
+    .success-icon-wrap {
+        width: 120px;
+        height: 120px;
+        background: #22c55e;
+        color: white;
+        font-size: 4rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        margin: 0 auto 3rem;
+        box-shadow: 0 20px 40px rgba(34, 197, 94, 0.3);
+    }
+
+    @media (max-width: 1024px) {
+        .co-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .co-sidebar {
+            position: static;
+            margin-top: 3rem;
+        }
+    }
+
+    </style>
+    <style>/* From admin.html */
+
+/* ============================================================
+   JustCook — Ultra-Realtime Admin Dashboard & "Sheet" View
+   ============================================================ */
+
+.jc-admin-page { padding: 2rem 0 8rem; min-height: 100vh; background: var(--bg); }
+
+/* Top Header */
+.jc-ad-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+.live-pulse {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 1.2rem;
+    background: rgba(34,197,94,0.1);
+    color: #22c55e;
+    border-radius: 99px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+.pulse-dot {
+    width: 8px; height: 8px;
+    background: #22c55e;
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+}
+@keyframes pulse { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(2.5); opacity: 0; } }
+
+/* Stats Grid */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+.kpi-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+    transition: transform 0.3s;
+}
+.kpi-card:hover { transform: translateY(-5px); }
+.kpi-label { font-size: 0.75rem; font-weight: 800; opacity: 0.5; text-transform: uppercase; letter-spacing: 1px; }
+.kpi-value { font-size: 2.2rem; font-weight: 900; margin: 0.5rem 0; display: block; color: var(--text); }
+.kpi-trend { font-size: 0.8rem; font-weight: 700; color: #22c55e; }
+
+/* Dashboard Tabs */
+.ad-tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1rem;
+}
+.tab-btn {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    background: transparent;
+    color: var(--text);
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: all 0.3s;
+    opacity: 0.5;
+}
+.tab-btn.active { opacity: 1; background: var(--primary); color: white; }
+
+/* Sheet View (Spreadsheet Style) */
+.sheet-container {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 32px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.05);
+}
+.sheet-header {
+    padding: 1.5rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0,0,0,0.02);
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+.sheet-tools { display: flex; gap: 1rem; align-items: center; }
+.sheet-search {
+    padding: 0.6rem 1.2rem;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 0.9rem;
+}
+
+.sheet-table-wrap { overflow-x: auto; max-height: 600px; }
+.sheet-table { width: 100%; border-collapse: collapse; min-width: 1000px; }
+.sheet-table th {
+    position: sticky; top: 0;
+    background: var(--card);
+    z-index: 10;
+    text-align: left;
+    padding: 1.2rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 800;
+    opacity: 0.5;
+    border-bottom: 2px solid var(--border);
+}
+.sheet-table td {
+    padding: 1.2rem;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+.sheet-table tr:hover { background: rgba(255,90,95,0.02); }
+
+.badge { padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.75rem; font-weight: 800; }
+.b-pending { background: rgba(99,102,241,0.1); color: #6366f1; }
+.b-done { background: rgba(34,197,94,0.1); color: #22c55e; }
+
+/* Gate */
+.admin-gate { min-height: 70vh; display: flex; align-items: center; justify-content: center; }
+.gate-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 32px;
+    padding: 4rem; width: 440px; text-align: center;
+}
+
+@media (max-width: 768px) {
+    .jc-ad-top { flex-direction: column; text-align: center; }
+    .kpi-grid { grid-template-columns: 1fr; }
+}
+
+    </style>
+    <style>/* From product-details.html */
+
+    /* ============================================================
+       JustCook — Refined Open Layout (Suggestions + Simple Form)
+       ============================================================ */
+    .pd-final-section {
+        padding: 6rem 2rem 10rem;
+        background: var(--bg);
+        min-height: 100vh;
+    }
+
+    .pd-main-grid {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 5rem;
+        align-items: flex-start;
+    }
+
+    @media (max-width: 900px) {
+        .pd-main-grid { grid-template-columns: 1fr; gap: 3rem; text-align: center; }
+        .pd-stage img { max-width: 250px; }
+    }
+
+    /* Floating Image Stage */
+    .pd-stage {
+        position: sticky;
+        top: 150px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .pd-stage img {
+        width: 100%;
+        max-width: 480px;
+        filter: drop-shadow(0 30px 60px rgba(0,0,0,0.15));
+        animation: pdBreath 4s ease-in-out infinite;
+    }
+
+    @keyframes pdBreath {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.03); }
+    }
+
+    /* Simple Buy Form */
+    .pd-info-panel {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .pd-category {
+        color: var(--primary);
+        font-weight: 800;
+        letter-spacing: 2px;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+
+    .pd-title {
+        font-size: 3.5rem;
+        font-weight: 900;
+        line-height: 1.1;
+        margin-bottom: 1.5rem;
+    }
+
+    .pd-desc {
+        font-size: 1.1rem;
+        line-height: 1.7;
+        opacity: 0.6;
+        margin-bottom: 3rem;
+    }
+
+    .pd-buy-form {
+        background: var(--card);
+        padding: 2.5rem;
+        border-radius: 30px;
+        border: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.03);
+    }
+
+    .pd-form-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .pd-price { font-size: 2rem; font-weight: 800; }
+
+    .pd-qty-selector {
+        display: flex;
+        align-items: center;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 0.5rem;
+    }
+
+    .qty-btn {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        font-weight: 800;
+        cursor: pointer;
+        color: var(--text);
+    }
+
+    #pd-qty-val {
+        width: 50px;
+        text-align: center;
+        font-weight: 800;
+        font-size: 1.1rem;
+    }
+
+    .pd-submit-btn {
+        height: 64px;
+        background: var(--primary);
+        color: white;
+        border-radius: 15px;
+        font-weight: 800;
+        font-size: 1.1rem;
+        box-shadow: 0 10px 30px rgba(255, 90, 95, 0.3);
+        transition: 0.3s;
+    }
+
+    .pd-submit-btn:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(255, 90, 95, 0.4); }
+
+    /* Suggestions Section (Open Design) */
+    .pd-suggestions {
+        margin-top: 10rem;
+        border-top: 1px solid var(--border);
+        padding-top: 5rem;
+    }
+
+    .sug-title {
+        font-size: 2rem;
+        font-weight: 900;
+        margin-bottom: 4rem;
+        text-align: center;
+    }
+
+    .sug-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 3rem;
+    }
+
+    .sug-card {
+        background: transparent;
+        border: none;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .sug-card:hover { transform: translateY(-15px); }
+
+    .sug-img-wrap {
+        position: relative;
+        width: 100%;
+        padding-top: 100%; /* Square aspect ratio */
+        margin-bottom: 1.5rem;
+    }
+
+    .sug-img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        height: 90%;
+        object-fit: contain;
+        filter: drop-shadow(0 15px 25px rgba(0,0,0,0.1));
+        transition: 0.4s;
+    }
+
+    .sug-card:hover .sug-img {
+        transform: translate(-50%, -60%) scale(1.1);
+        filter: drop-shadow(0 25px 40px rgba(0,0,0,0.15));
+    }
+
+    .sug-name { font-weight: 800; font-size: 1.1rem; margin-bottom: 0.5rem; opacity: 0.8; }
+    .sug-price { font-weight: 800; color: var(--primary); font-size: 1rem; }
+
+
+    </style>
+    <!-- End Injected Page Styles -->
+</head>
+<body class="theme-chicken">
+  <!-- App Container -->
+  <div class="app-container">
+    
+    <!-- Header Navigation -->
+    <header class="main-header">
+      <div class="header-left" style="display: flex; align-items: center; gap: 2rem;">
+        <a href="index.html" class="logo-link"><img src="logo/logo.png" alt="JustCook Logo" class="header-logo" style="height: 80px; width: auto;"></a>
+        <button class="menu-toggle" aria-label="Toggle Menu" id="menu-btn">
+          <span class="bar bar-top"></span>
+          <span class="bar bar-bottom"></span>
+        </button>
+      </div>
+      
+      <nav class="nav-menu">
+        <a href="#/home" class="nav-link active" id="nav-link-home">Home</a>
+        <a href="#/products" class="nav-link" id="nav-link-products">Products</a>
+        
+        <a href="#/cart" class="nav-link icon-link" id="nav-link-cart" style="position:relative; display:flex; align-items:center; padding: 0.5rem 1rem;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+          <span id="cart-count" style="position:absolute; top:2px; right:4px; background:var(--primary-color); color:white; font-size:0.75rem; font-weight:bold; border-radius:50%; width:18px; height:18px; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 5px rgba(0,0,0,0.2);">0</span>
+        </a>
+<a href="#/contact" class="nav-link" id="nav-link-contact">Contact</a>
+
+        <a href="#/admin" class="nav-link" id="nav-link-admin" style="display:none;">Admin</a>
+      </nav>
+      
+      <a href="#/products" class="btn btn-order-header btn-action" id="header-order-btn">ORDER NOW</a>
+    </header>
+
+    <!-- Hero Section -->
+    <main class="hero-section">
+      
+      <!-- Massive Background Typography (Layer 1) -->
+      <div class="giant-bg-text-container">
+        <div class="giant-bg-text text-left" id="bg-text-left-stroke">FLAVOR</div>
+        <div class="giant-bg-text text-right" id="bg-text-right-stroke">POP</div>
+      </div>
+
+      <!-- Main Interactive Content Layout (Layer 2) -->
+      <div class="hero-container">
+        
+        <!-- Left Side Section -->
+        <div class="hero-side side-left">
+          <div class="giant-title-wrapper">
+            <h1 class="giant-title-part" id="bg-text-left">FLAVOR</h1>
+          </div>
+          <div class="flavor-selector-block animate-fade-in-left">
+            <h3 class="side-title" id="text-left-title">Choose your flavor</h3>
+            <p class="side-subtitle" id="text-left-subtitle">crafted your way</p>
+            <div class="pointer-line line-left">
+              <span class="line-dot"></span>
+            </div>
+          </div>
         </div>
+
+        <!-- Center Stage Showcase -->
+        <div class="hero-center-stage">
+          <div class="plate-stage">
+            <!-- Floating Droplets/Bubbles (Dynamic or Styled Elements) -->
+            <div class="droplets-container" id="droplets-wrapper">
+              <span class="droplet size-sm pos-1"></span>
+              <span class="droplet size-md pos-2"></span>
+              <span class="droplet size-lg pos-3"></span>
+              <span class="droplet size-sm pos-4"></span>
+              <span class="droplet size-md pos-5"></span>
+              <span class="droplet size-lg pos-6"></span>
+              <span class="droplet size-sm pos-7"></span>
+              <span class="droplet size-md pos-8"></span>
+            </div>
+
+            <!-- Plate Image Wrapper -->
+            <div class="plate-wrapper">
+              <img src="productimage/chicken.png" id="product-plate" class="plate-image" alt="Premium Fried Chicken">
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Side Section -->
+        <div class="hero-side side-right">
+          <div class="giant-title-wrapper">
+            <span class="giant-title-part" id="bg-text-right">POP</span>
+          </div>
+          <div class="moment-block animate-fade-in-right">
+            <h3 class="side-title" id="text-right-title">Enjoy the moment</h3>
+            <p class="side-subtitle" id="text-right-subtitle">we handle the rest</p>
+            <div class="pointer-line line-right">
+              <span class="line-dot"></span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Layout Section (CTA & Subtitles) -->
+      <div class="hero-bottom">
+        <a href="#/products" class="btn btn-order-main btn-action" id="order-main-btn">ORDER NOW</a>
+      </div>
+
     </main>
 
-    <!-- Footer -->
-    <footer class="footer" style="background: #0f172a; border-top: 1px solid #1e293b; color: #f1f5f9; padding: 0;">
-        <div style="padding: 6rem 2rem 4rem; max-width: 1200px; margin: 0 auto;">
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 4rem;">
-                <!-- Brand -->
-                <div data-aos="fade-up">
-                    <div style="margin-bottom: 2rem;">
-                        <img src="images/logo.png" alt="JustCook Logo" style="height: 65px; width: auto; object-fit: contain; filter: brightness(0) invert(1);">
-                    </div>
-                    <p style="font-size: 1rem; opacity: 0.6; line-height: 1.8; margin-bottom: 2.5rem;">Authentic regional mixes crafted for the modern home chef. Bringing heritage flavors to your kitchen.</p>
-                    <div style="display: flex; gap: 1.2rem;">
-                        <a href="https://www.instagram.com/justcook.in" target="_blank" style="width: 44px; height: 44px; border-radius: 12px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; transition: 0.3s; color: white; text-decoration: none;" onmouseover="this.style.background='var(--primary)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'"><i class="fab fa-instagram"></i></a>
-                        <a href="https://wa.me/919840462831" target="_blank" style="width: 44px; height: 44px; border-radius: 12px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; transition: 0.3s; color: white; text-decoration: none;" onmouseover="this.style.background='#25D366'" onmouseout="this.style.background='rgba(255,255,255,0.05)'"><i class="fab fa-whatsapp"></i></a>
-                        <a href="https://maps.app.goo.gl/9y7LetSw1GHmf5Lq5?g_st=aw" target="_blank" style="width: 44px; height: 44px; border-radius: 12px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; transition: 0.3s; color: white; text-decoration: none;" onmouseover="this.style.background='#4facfe'" onmouseout="this.style.background='rgba(255,255,255,0.05)'"><i class="fas fa-map-marker-alt"></i></a>
-                    </div>
-                </div>
+    <!-- Signature Collection Section -->
+    <section class="signature-collection" id="signature-collection">
+      <div class="signature-header">
+        <h2 class="signature-title">Signature Collection</h2>
+        <p class="signature-subtitle">Scroll down to see the magic</p>
+      </div>
+      
+      <div class="signature-content">
+        <!-- The hero product image will float down and land here visually -->
+        <div class="signature-text-block">
+          <h3>Premium Quality</h3>
+          <p>Every bite is crafted with the finest ingredients to give you the ultimate flavor pop.</p>
+        </div>
+      </div>
+    </section>
 
-                <!-- Products -->
-                <div data-aos="fade-up" data-aos-delay="100">
-                    <h4 style="font-family:'Outfit',sans-serif; font-size: 1.1rem; font-weight: 800; margin-bottom: 2rem; color: var(--primary);">Products</h4>
-                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 1rem; padding: 0;">
-                        <li><a href="#/product/pani-puri-masala" style="opacity:0.6; font-size:0.95rem; text-decoration:none; color: white; transition:0.3s;" onmouseover="this.style.opacity=1; this.style.paddingLeft='10px'" onmouseout="this.style.opacity=0.6; this.style.paddingLeft='0'">Pani Puri Masala</a></li>
-                        <li><a href="#/product/waffle-mix" style="opacity:0.6; font-size:0.95rem; text-decoration:none; color: white; transition:0.3s;" onmouseover="this.style.opacity=1; this.style.paddingLeft='10px'" onmouseout="this.style.opacity=0.6; this.style.paddingLeft='0'">Waffle Mixes</a></li>
-                        <li><a href="#/product/fried-chicken-hot-spicy" style="opacity:0.6; font-size:0.95rem; text-decoration:none; color: white; transition:0.3s;" onmouseover="this.style.opacity=1; this.style.paddingLeft='10px'" onmouseout="this.style.opacity=0.6; this.style.paddingLeft='0'">Fried Chicken Mix</a></li>
-                        <li><a href="#/products" style="opacity:0.6; font-size:0.95rem; text-decoration:none; color: white; transition:0.3s;" onmouseover="this.style.opacity=1; this.style.paddingLeft='10px'" onmouseout="this.style.opacity=0.6; this.style.paddingLeft='0'">Instant Mixes</a></li>
-                    </ul>
-                </div>
+    <!-- Revolution Section -->
+    <section class="revolution-section" id="revolution">
+      <div class="revolution-container">
+        <div class="revolution-content-left">
+          <h2 class="revolution-title">Beyond Just Spices, It's a Flavor Revolution.</h2>
+          <div class="revolution-text">
+            <p>At JustCook, we've expanded our horizons. While our soul remains rooted in the perfect Pani Puri, we've journeyed into the worlds of crispy comfort and morning delights.</p>
+            <p>From the fiery streets of India to the golden brunches of Europe, our master blenders ensure that every JustCook product delivers the same authentic, chef-quality experience in your own home.</p>
+          </div>
+          <a href="#/products" class="btn btn-explore btn-action">Explore All Flavors</a>
+        </div>
+        <div class="revolution-content-right">
+          <img src="Flavor Revolution Art/stock-vector-indian-woman-grinding-masala-in-traditional-way-2513595463-removebg-preview.png" alt="Flavor Revolution Art" class="revolution-art">
+        </div>
+      </div>
+    </section>
 
-                <!-- Quick Links -->
-                <div data-aos="fade-up" data-aos-delay="200">
-                    <h4 style="font-family:'Outfit',sans-serif; font-size: 1.1rem; font-weight: 800; margin-bottom: 2rem; color: var(--primary);">Quick Links</h4>
-                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 1rem; padding: 0;">
-                        <li><a href="#/" style="opacity:0.6; font-size:0.95rem; text-decoration:none; color: white; transition:0.3s;" onmouseover="this.style.opacity=1; this.style.paddingLeft='10px'" onmouseout="this.style.opacity=0.6; this.style.paddingLeft='0'">Home</a></li>
-                        <li><a href="#/products" style="opacity:0.6; font-size:0.95rem; text-decoration:none; color: white; transition:0.3s;" onmouseover="this.style.opacity=1; this.style.paddingLeft='10px'" onmouseout="this.style.opacity=0.6; this.style.paddingLeft='0'">Shop All</a></li>
-                        <li><a href="#/contact" style="opacity:0.6; font-size:0.95rem; text-decoration:none; color: white; transition:0.3s;" onmouseover="this.style.opacity=1; this.style.paddingLeft='10px'" onmouseout="this.style.opacity=0.6; this.style.paddingLeft='0'">Contact Us</a></li>
-                    </ul>
-                </div>
+    
+    <!-- Dynamic Product Switcher Dock -->
+    <div class="product-dock">
+      <div class="dock-container">
+        <button class="dock-item active" data-product="chicken" id="dock-btn-chicken" aria-label="Select Chicken">
+          <div class="dock-thumb">
+            <img src="productimage/chicken.png" alt="Chicken">
+          </div>
+          <span class="dock-label">Chicken</span>
+        </button>
+        <button class="dock-item" data-product="panipuri" id="dock-btn-panipuri" aria-label="Select Panipuri">
+          <div class="dock-thumb">
+            <img src="productimage/panipuri.png" alt="Panipuri">
+          </div>
+          <span class="dock-label">Panipuri</span>
+        </button>
+        <button class="dock-item" data-product="waffle" id="dock-btn-waffle" aria-label="Select Waffle">
+          <div class="dock-thumb">
+            <img src="productimage/waffle.png" alt="Waffle">
+          </div>
+          <span class="dock-label">Waffle</span>
+        </button>
+      </div>
+    </div>
 
-                <!-- Contact -->
-                <div data-aos="fade-up" data-aos-delay="300">
-                    <h4 style="font-family:'Outfit',sans-serif; font-size: 1.1rem; font-weight: 800; margin-bottom: 2rem; color: var(--primary);">Visit Us</h4>
-                    <p style="font-size: 0.95rem; opacity: 0.6; line-height: 1.8; margin-bottom: 1rem;">
-                        Elli Sathiram Road, Sriram Nagar<br>
-                        Villupuram, TN 605602
-                    </p>
-                    <p style="font-size: 0.95rem; opacity: 0.6; line-height: 1.8;">
-                        <span style="color: var(--primary); font-weight: 700;">Email:</span> Justcook32@gmail.com<br>
-                        <span style="color: var(--primary); font-weight: 700;">Phone:</span> +91 98404 62831
-                    </p>
-                </div>
+  
+
+
+
+<!-- ====== CONTACT VIEW ====== -->
+
+    <!-- Contact View -->
+    <!-- ═══════════════════════════════════════════════
+         CONTACT VIEW — Mirrors Home Hero Aesthetic
+    ════════════════════════════════════════════════ -->
+    <main id="view-contact" class="hero-section contact-page-view" style="display:none;">
+
+      <!-- Giant BG text — same as home page -->
+      <div class="giant-bg-text-container">
+        <div class="giant-bg-text text-left">GET IN</div>
+        <div class="giant-bg-text text-right">TOUCH</div>
+      </div>
+
+      <!-- Animated floating droplets — same as home -->
+      <div class="droplets-container" style="position:absolute; inset:0; pointer-events:none; z-index:1;">
+        <span class="droplet size-lg pos-3"></span>
+        <span class="droplet size-md pos-5"></span>
+        <span class="droplet size-sm pos-7"></span>
+        <span class="droplet size-md pos-2"></span>
+      </div>
+
+      <!-- Main content grid -->
+      <div class="contact-grid">
+
+        <!-- LEFT: Title + Form -->
+        <div class="contact-col contact-col-form">
+          <div class="giant-title-wrapper">
+            <h1 class="giant-title-part contact-title">CONTACT</h1>
+          </div>
+
+          <div class="contact-glass-card">
+            <h3 class="side-title" style="text-transform:none; margin-bottom:1.8rem; font-size:1.4rem;">Send us a Message</h3>
+            <form id="contact-form" class="contact-form" onsubmit="event.preventDefault(); if(window.showToast) window.showToast('Message sent! We\'ll reply soon. ✅'); this.reset();">
+              <div class="contact-field">
+                <label class="contact-label">Your Name</label>
+                <input type="text" name="name" placeholder="e.g. Arjun Kumar" required class="contact-input">
+              </div>
+              <div class="contact-field">
+                <label class="contact-label">Phone Number</label>
+                <input type="tel" name="phone" placeholder="e.g. 98404 62831" required class="contact-input" pattern="[0-9]{10}">
+              </div>
+              <div class="contact-field">
+                <label class="contact-label">Email (optional)</label>
+                <input type="email" name="email" placeholder="you@example.com" class="contact-input">
+              </div>
+              <div class="contact-field">
+                <label class="contact-label">Your Message</label>
+                <textarea name="message" placeholder="Tell us how we can help..." rows="4" required class="contact-input contact-textarea"></textarea>
+              </div>
+              <button type="submit" class="btn btn-action contact-submit">
+                <span>Send Message</span>
+                <i class="fas fa-paper-plane" style="margin-left:0.6rem;"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- RIGHT: Info cards + Social -->
+        <div class="contact-col contact-col-info">
+
+          <div class="contact-info-card">
+            <div class="contact-info-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div>
+              <h4 class="contact-info-label">Address</h4>
+              <p class="contact-info-text">Elli Sathiram Road, Sriram Nagar<br>Villupuram, TN 605602</p>
             </div>
-            
-            <div style="margin-top: 6rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem;">
-                <p style="font-size: 0.9rem; opacity: 0.4;">&copy; 2026 JustCook. All rights reserved.</p>
-                <div style="display: flex; gap: 2rem;">
-                    <a href="#" style="font-size: 0.8rem; opacity: 0.4; text-decoration: none; color: white;">Privacy Policy</a>
-                    <a href="#" style="font-size: 0.8rem; opacity: 0.4; text-decoration: none; color: white;">Terms of Service</a>
+          </div>
+
+          <div class="contact-info-card">
+            <div class="contact-info-icon"><i class="fas fa-phone-alt"></i></div>
+            <div>
+              <h4 class="contact-info-label">Phone</h4>
+              <p class="contact-info-text"><a href="tel:+919840462831" style="color:inherit; text-decoration:none;">+91 98404 62831</a></p>
+            </div>
+          </div>
+
+          <div class="contact-info-card">
+            <div class="contact-info-icon"><i class="fas fa-envelope"></i></div>
+            <div>
+              <h4 class="contact-info-label">Email</h4>
+              <p class="contact-info-text"><a href="mailto:Justcook32@gmail.com" style="color:inherit; text-decoration:none;">Justcook32@gmail.com</a></p>
+            </div>
+          </div>
+
+          <!-- Social row -->
+          <div class="contact-social-row">
+            <a href="https://wa.me/919840462831" target="_blank" class="contact-social-btn whatsapp" title="WhatsApp">
+              <i class="fab fa-whatsapp"></i>
+            </a>
+            <a href="https://www.instagram.com/justcook.in" target="_blank" class="contact-social-btn instagram" title="Instagram">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://maps.app.goo.gl/9y7LetSw1GHmf5Lq5?g_st=aw" target="_blank" class="contact-social-btn location" title="Google Maps">
+              <i class="fas fa-map-marker-alt"></i>
+            </a>
+          </div>
+
+          <!-- Order on WhatsApp shortcut -->
+          <a href="https://wa.me/919840462831?text=Hi%20JustCook!%20I%20want%20to%20place%20an%20order." target="_blank" class="btn btn-action" style="margin-top:2rem; display:inline-flex; align-items:center; gap:0.7rem; background:#25D366; width:100%; justify-content:center;">
+            <i class="fab fa-whatsapp"></i> Order on WhatsApp
+          </a>
+
+        </div>
+      </div>
+
+    </main>
+
+    
+<section id="view-products" class="spa-view" style="display:none; min-height:100vh; position:relative; z-index:10;">
+
+
+<div class="jc-shop-page">
+    <div class="shop-blob sb-1"></div>
+    <div class="shop-blob sb-2"></div>
+
+    <section class="jc-shop-header container">
+        <h1 class="shop-title" data-aos="zoom-out">Flavor Gallery</h1>
+        <p class="shop-subtitle" data-aos="fade-up" data-aos-delay="100">
+            Explore our curated collection of authentic food mixes. Bringing restaurant-grade flavors straight to your
+            kitchen.
+        </p>
+
+        <div class="shop-controls" data-aos="fade-up" data-aos-delay="200">
+            <div class="search-wrap">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="shop-search" class="search-input" placeholder="Search flavors...">
+            </div>
+
+            <div class="filter-chips" id="category-filters">
+                <button class="chip active" data-cat="all">All Items</button>
+                <button class="chip" data-cat="Pani Puri">Pani Puri</button>
+                <button class="chip" data-cat="Ready Mix">Ready Mixes</button>
+                <button class="chip" data-cat="Snacks">Snacks</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="products-grid" id="shop-grid">
+            <!-- Products will be injected here -->
+        </div>
+    </div>
+</div>
+
+
+</section>
+
+<section id="view-cart" class="spa-view" style="display:none; min-height:100vh; position:relative; z-index:10;">
+
+
+<div class="cart-page container" id="cart-root">
+    <div style="min-height:50vh;display:flex;align-items:center;justify-content:center;">
+        <div class="spinner"></div>
+    </div>
+</div>
+
+
+</section>
+
+<section id="view-checkout" class="spa-view" style="display:none; min-height:100vh; position:relative; z-index:10;">
+
+
+<div class="co-page container" id="co-root">
+    <div class="co-blob co-blob-1"></div>
+    <div class="co-blob co-blob-2"></div>
+    <div class="co-blob co-blob-3"></div>
+
+    <div id="auth-requirement-screen" style="display:none; text-align:center; padding:10rem 2rem;">
+        <div style="font-size:5rem; margin-bottom:2rem; filter:drop-shadow(0 10px 20px rgba(230, 57, 70, 0.2));">🔒
+        </div>
+        <h1 class="co-title">Login Required</h1>
+        <p class="co-subtitle">Please sign in to your JustCook account to securely place your order and track its
+            progress.</p>
+        <div style="display:flex; gap:1.5rem; justify-content:center; margin-top:2rem;">
+            <a href="#/login" class="co-btn" style="max-width:200px;">Sign In Now</a>
+            <a href="#/products" class="co-btn co-btn-secondary" style="max-width:200px;">Back to Shop</a>
+        </div>
+    </div>
+
+    <div id="checkout-main-content">
+        <h1 class="co-title" data-aos="zoom-out">Secure Checkout</h1>
+        <p class="co-subtitle" data-aos="fade-up" data-aos-delay="100">Almost there! Just a few details to get your
+            flavors moving.</p>
+
+        <!-- Stepper -->
+        <div class="co-stepper" data-aos="fade-up" data-aos-delay="200">
+            <div class="co-step-item active" id="s1">
+                <div class="co-step-dot">1</div>
+                <div class="co-step-label">Contact</div>
+                <div class="co-step-line"></div>
+            </div>
+            <div class="co-step-item" id="s2">
+                <div class="co-step-dot">2</div>
+                <div class="co-step-label">Shipping</div>
+                <div class="co-step-line"></div>
+            </div>
+            <div class="co-step-item" id="s3">
+                <div class="co-step-dot">3</div>
+                <div class="co-step-label">Payment</div>
+            </div>
+        </div>
+
+        <div class="co-grid">
+            <!-- LEFT: Forms -->
+            <div class="co-panels">
+
+                <!-- Step 1 -->
+                <div class="co-panel active" id="cp1">
+                    <div class="co-card">
+                        <h2>Personal Details</h2>
+                        <div class="co-group">
+                            <label class="co-label">Full Name</label>
+                            <input type="text" class="co-input" id="co-name" placeholder="John Doe">
+                        </div>
+                        <div class="co-row">
+                            <div class="co-group">
+                                <label class="co-label">Email Address</label>
+                                <input type="email" class="co-input" id="co-email-input" placeholder="john@example.com">
+                            </div>
+                            <div class="co-group">
+                                <label class="co-label">Mobile Number</label>
+                                <input type="tel" class="co-input" id="co-phone" placeholder="9876543210"
+                                    maxlength="10">
+                            </div>
+                        </div>
+                        <button class="co-btn" id="btn-next-1">Continue to Shipping <span>→</span></button>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="co-panel" id="cp2">
+                    <div class="co-card">
+                        <h2> Shipping Address</h2>
+                        <div class="co-group">
+                            <label class="co-label">Street Address</label>
+                            <textarea class="co-input" id="co-address" rows="3"
+                                placeholder="Apartment, Street, Area"></textarea>
+                        </div>
+                        <div class="co-row">
+                            <div class="co-group">
+                                <label class="co-label">City</label>
+                                <input type="text" class="co-input" id="co-city" placeholder="Chennai">
+                            </div>
+                            <div class="co-group">
+                                <label class="co-label">PIN Code</label>
+                                <input type="tel" class="co-input" id="co-pin" placeholder="600001" maxlength="6">
+                            </div>
+                        </div>
+                        <div style="display:flex;gap:1.5rem;margin-top:1rem;">
+                            <button class="co-btn co-btn-secondary" id="btn-back-1">Back</button>
+                            <button class="co-btn" id="btn-next-2">Continue to Payment <span>→</span></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="co-panel" id="cp3">
+                    <div class="co-card">
+                        <h2> Secure Payment</h2>
+
+                        <div
+                            style="background:rgba(79,70,229,0.06); border:1px solid rgba(79,70,229,0.2); border-radius:24px; padding:1.5rem; margin-bottom:2rem; text-align:center;">
+                            <p style="font-weight:800; font-size:0.95rem; color:var(--primary);"> Razorpay Secure Checkout</p>
+                            <p style="font-size:0.8rem; opacity:0.6; margin-top:0.4rem;">Cards, UPI, Netbanking & Wallets</p>
+                        </div>
+
+                        <!-- Order Amount Display -->
+                        <div
+                            style="text-align:center; padding:2rem; background:var(--bg); border:1px solid var(--border); border-radius:32px; margin-bottom:2.5rem; position:relative; overflow:hidden;">
+                            <div
+                                style="position:absolute; top:0; left:0; width:100%; height:4px; background:linear-gradient(90deg, var(--primary), #6366f1);">
+                            </div>
+                            <div
+                                style="font-size:0.75rem; font-weight:800; text-transform:uppercase; opacity:0.5; letter-spacing:2px;">
+                                Total Payable</div>
+                            <div id="rzp-amount-display"
+                                style="font-size:3.5rem; font-weight:900; color:var(--text); margin-top:0.5rem; letter-spacing:-1px;">
+                                ₹0.00</div>
+                        </div>
+
+                        <div style="display:flex; flex-direction:column; gap:1rem;">
+                            <button class="co-btn" onclick="initRazorpay('card')" id="btn-card-order" style="background:#2563eb; width:100%;">
+                                💳 Pay with Credit / Debit Card
+                            </button>
+                            <button class="co-btn" onclick="initRazorpay()" id="btn-place-order" style="width:100%;">
+                                📱 Pay with UPI or Netbanking
+                            </button>
+                            <button class="co-btn co-btn-secondary" id="btn-back-2" style="width:100%;">Back</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- RIGHT: Summary -->
+            <aside class="co-sidebar" data-aos="fade-left" data-aos-delay="400">
+                <h3>Order Summary</h3>
+                <div id="co-summary-items"></div>
+                <div class="co-line"></div>
+                <div class="co-total-box">
+                    <div class="co-row-t"><span>Subtotal</span><span id="co-subtotal">—</span></div>
+                    <div class="co-row-t"><span>Delivery</span><span id="co-shipping">—</span></div>
+                    <div class="co-row-t big"><span>Total</span><span id="co-total">—</span></div>
+                </div>
+                <a href="#/cart"
+                    style="display:block; text-align:center; margin-top:1.5rem; font-size:0.85rem; opacity:0.5; text-decoration:none; font-weight:600;">←
+                    Back to Cart</a>
+            </aside>
+        </div>
+    </div>
+
+    
+</section>
+
+<section id="view-admin" class="spa-view" style="display:none; min-height:100vh; position:relative; z-index:10;">
+
+
+<div class="jc-admin-page container">
+    <!-- DASHBOARD -->
+    <div id="adminDash">
+        <div class="jc-ad-top">
+            <div>
+                <h1 style="font-weight:900; font-size:2.2rem;">Live Command Center</h1>
+                <p style="opacity:0.5;">Real-time sync enabled • JustCook Cloud</p>
+            </div>
+            <div style="display:flex; gap:1rem; align-items:center;">
+                <div class="live-pulse"><span class="pulse-dot"></span> LIVE DATA</div>
+            </div>
+        </div>
+
+        <!-- KPIs -->
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <span class="kpi-label">Revenue (Live)</span>
+                <span class="kpi-value" id="kRevenue">₹0</span>
+                <span class="kpi-trend">↑ 12% vs last week</span>
+            </div>
+            <div class="kpi-card">
+                <span class="kpi-label">Orders</span>
+                <span class="kpi-value" id="kOrders">0</span>
+                <span class="kpi-trend" style="color:var(--primary);">3 pending processing</span>
+            </div>
+            <div class="kpi-card">
+                <span class="kpi-label">Customers</span>
+                <span class="kpi-value" id="kCust">0</span>
+                <span class="kpi-trend">New signups today</span>
+            </div>
+            <div class="kpi-card" id="seedCard">
+                <span class="kpi-label">Database Management</span>
+                <div style="margin-top:1.5rem;">
+                    <button id="seedDbBtn" class="btn btn-secondary" style="font-size:0.8rem; width:100%;">Sync Cloud Products</button>
                 </div>
             </div>
         </div>
+
+        <!-- Dashboard Tabs -->
+        <div class="ad-tabs">
+            <button class="tab-btn active" data-tab="monitor">Live Monitor</button>
+            <button class="tab-btn" data-tab="orders">All Orders (Sheet)</button>
+            <button class="tab-btn" data-tab="inventory">Inventory</button>
+        </div>
+
+        <!-- Live Monitor View -->
+        <div id="view-monitor" class="view-section">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+                <h2 style="font-weight:800; font-size:1.2rem;">Incoming Orders</h2>
+                <button id="simulateOrder" class="btn btn-secondary" style="font-size:0.75rem;">+ Simulate Test Order</button>
+            </div>
+            <div id="monitorGrid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:1.5rem;">
+                <!-- Live cards here -->
+            </div>
+        </div>
+
+        <!-- Sheet View -->
+        <div id="view-orders" class="view-section hidden">
+            <div class="sheet-container">
+            <div class="sheet-header">
+                <h2 style="font-weight:800; font-size:1.2rem;">Order Ledger</h2>
+                <div class="sheet-tools">
+                    <input type="text" class="sheet-search" id="orderSearch" placeholder="Filter by ID or Name...">
+                    <button class="btn btn-secondary" id="exportBtn" style="font-size:0.8rem;">Export to CSV</button>
+                </div>
+            </div>
+            <div class="sheet-table-wrap">
+                <table class="sheet-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Date & Time</th>
+                            <th>Customer Name</th>
+                            <th>Contact</th>
+                            <th>Total Amount</th>
+                            <th>Payment ID (UTR)</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersBody">
+                        <!-- Realtime data injected here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</section>
+
+<section id="view-product-details" class="spa-view" style="display:none; min-height:100vh; position:relative; z-index:10;">
+
+
+<div class="pd-final-section container">
+    <div id="pd-loader" style="height: 60vh; display: flex; align-items: center; justify-content: center;">
+        <div class="spinner"></div>
+    </div>
+
+    <div id="pd-main-view" style="display: none;">
+        <div class="pd-main-grid">
+            <!-- Visuals -->
+            <div class="pd-stage">
+                <img id="pd-img" src="" alt="">
+            </div>
+
+            <!-- Content -->
+            <div class="pd-info-panel">
+                <p class="pd-category" id="pd-cat"></p>
+                <h1 class="pd-title" id="pd-title"></h1>
+                <p class="pd-desc" id="pd-desc"></p>
+
+                <div class="pd-buy-form">
+                    <div class="pd-form-row">
+                        <div class="pd-price" id="pd-price"></div>
+                        <div class="pd-qty-selector">
+                            <div class="qty-btn" id="pd-minus">−</div>
+                            <div id="pd-qty-val">1</div>
+                            <div class="qty-btn" id="pd-plus">+</div>
+                        </div>
+                    </div>
+                    
+                    <div style="display:flex; flex-direction:column; gap:0.8rem;">
+                        <span style="font-size:0.8rem; font-weight:800; opacity:0.4; letter-spacing:1px;">AVAILABLE SIZES</span>
+                        <div style="display:flex; gap:0.5rem;" id="pd-sizes">
+                            <!-- Sizes injected here -->
+                        </div>
+                    </div>
+
+                    <button class="pd-submit-btn" id="pd-add">ADD TO CART</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Suggestions -->
+        <div class="pd-suggestions">
+            <h2 class="sug-title">People Also Crave</h2>
+            <div class="sug-grid" id="pd-sug-grid"></div>
+        </div>
+    </div>
+</div>
+
+
+</section>
+
+    <footer class="site-footer">
+      <div class="footer-container">
+        
+        <div class="footer-col brand-col">
+          <img src="logo/logo.png" alt="JustCook Logo" class="footer-logo-img" style="height: 100px; margin-bottom: 1.5rem;">
+          <p>Authentic regional mixes crafted for the modern home chef. Bringing heritage flavors to your kitchen.</p>
+        </div>
+        
+        <div class="footer-col links-col">
+          <h4>Products</h4>
+          <ul>
+            <li><a href="#panipuri">Pani Puri Masala</a></li>
+            <li><a href="#waffle">Waffle Mixes</a></li>
+            <li><a href="#chicken">Fried Chicken Mix</a></li>
+            <li><a href="#instant">Instant Mixes</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-col links-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#/products">Shop All</a></li>
+            <li><a href="#contact">Contact Us</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-col contact-col">
+          <h4>Visit Us</h4>
+          <address>
+            Elli Sathiram Road, Sriram Nagar<br>
+            Villupuram, TN 605602<br><br>
+            Email: <a href="mailto:Justcook32@gmail.com">Justcook32@gmail.com</a><br>
+            Phone: +91 98404 62831
+          
+          </address>
+          <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+            <a href="https://wa.me/919840462831" target="_blank" style="width: 44px; height: 44px; border-radius: 12px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; transition: 0.3s; color: white; text-decoration: none; border: 1px solid rgba(255,255,255,0.1);" onmouseover="this.style.background='#25D366'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">
+              <i class="fab fa-whatsapp" style="font-size: 1.2rem;"></i>
+            </a>
+            <a href="https://www.instagram.com/justcook.in" target="_blank" style="width: 44px; height: 44px; border-radius: 12px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; transition: 0.3s; color: white; text-decoration: none; border: 1px solid rgba(255,255,255,0.1);" onmouseover="this.style.background='var(--primary-color)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">
+              <i class="fab fa-instagram" style="font-size: 1.2rem;"></i>
+            </a>
+            <a href="https://maps.app.goo.gl/9y7LetSw1GHmf5Lq5?g_st=aw" target="_blank" style="width: 44px; height: 44px; border-radius: 12px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; transition: 0.3s; color: white; text-decoration: none; border: 1px solid rgba(255,255,255,0.1);" onmouseover="this.style.background='#4facfe'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">
+              <i class="fas fa-map-marker-alt" style="font-size: 1.2rem;"></i>
+            </a>
+          </div>
+
+        </div>
+        
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2026 JustCook. All rights reserved.</p>
+        <div class="footer-legal">
+          <a href="#privacy">Privacy Policy</a>
+          <a href="#terms">Terms of Service</a>
+        </div>
+      </div>
     </footer>
 
-
-
-    <!-- Mobile Bottom Taskbar (shown only on mobile via CSS) -->
-    <div class="mobile-taskbar" style="display: none;" id="mobileTaskbar">
-        <a href="#/" class="taskbar-item" data-route="/">
-            <i class="fas fa-home" style="font-size:1.3rem;"></i>
-            <span>Home</span>
-        </a>
-        <a href="#/products" class="taskbar-item" data-route="/products">
-            <i class="fas fa-store" style="font-size:1.3rem;"></i>
-            <span>Shop</span>
-        </a>
-        <a href="#/cart" class="taskbar-item" data-route="/cart" style="position: relative;">
-            <i class="fas fa-shopping-cart" style="font-size:1.3rem;"></i>
-            <span>Cart</span>
-            <span class="taskbar-badge" id="taskbar-cart-count" style="display:none;">0</span>
-        </a>
     </div>
 
-    <script>
-    // ── Mobile Bottom Nav: Active State + Cart Badge ─────────
-    (function() {
-        function updateMobileNav() {
-            const hash = window.location.hash.replace('#', '') || '/';
-            const items = document.querySelectorAll('.taskbar-item');
-            items.forEach(item => {
-                const route = item.getAttribute('data-route');
-                item.classList.toggle('active', hash === route || (route !== '/' && hash.startsWith(route)));
-            });
+<!-- Javascript -->
 
-            // Sync cart badge
-            if (window.Store) {
-                const count = window.Store.getCartTotals ? window.Store.getCartTotals().count : 0;
-                const badge = document.getElementById('taskbar-cart-count');
-                if (badge) {
-                    badge.textContent = count;
-                    badge.style.display = count > 0 ? 'flex' : 'none';
-                }
-            }
-        }
-
-        window.addEventListener('hashchange', updateMobileNav);
-        window.addEventListener('load', updateMobileNav);
-        // Poll for cart changes every 2s
-        setInterval(updateMobileNav, 2000);
+  <!-- External Dependencies -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function(){
+      if(window.emailjs) emailjs.init("YOUR_PUBLIC_KEY"); // Optional depending on how emailjs was set up
     })();
-    </script>
+  </script>
 
-    <!-- ✅ Backend Init (Supabase is server-side now) -->
-    <!-- Supabase JS -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/config.js"></script>
+  <script src="app.js"></script>
 
-    <!-- ✅ Core globals — MUST be plain scripts (not modules) so
-         window.Database and window.Store are ready before the router loads any page -->
-    <script src="js/db.js"></script>
-    <script src="js/store.js"></script>
-
-    <!-- External Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/swiper@11/swiper-bundle.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
-    <!-- Razorpay Checkout -->
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <!-- EmailJS -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script type="text/javascript">
-        (function () {
-            emailjs.init("qsO_NSZcmKQoobccn"); // Replace with EmailJS Public Key
-        })();
-    </script>
-
-    <!-- Core App Logic (Pure Local Mode) -->
-
-    <!-- Toast Notification System -->
-    <div id="toast-container"
-        style="position:fixed; bottom:2rem; right:2rem; z-index:9999; display:flex; flex-direction:column; gap:0.8rem; pointer-events:none;">
-    </div>
-
-    <script>
-        // Responsive Menu Logic
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const closeMobileBtn = document.getElementById('close-mobile-btn');
-        const mobileNav = document.getElementById('mobile-nav-overlay');
-
-        if (mobileMenuBtn) {
-            mobileMenuBtn.onclick = () => {
-                mobileNav.style.display = 'flex';
-                setTimeout(() => {
-                    mobileNav.style.opacity = '1';
-                    mobileNav.style.transform = 'scale(1)';
-                }, 10);
-            };
-        }
-
-        if (closeMobileBtn) {
-            closeMobileBtn.onclick = () => {
-                mobileNav.style.opacity = '0';
-                setTimeout(() => {
-                    mobileNav.style.display = 'none';
-                }, 400);
-            };
-        }
-
-        document.querySelectorAll('.mobile-link').forEach(link => {
-            link.onclick = () => {
-                mobileNav.style.opacity = '0';
-                setTimeout(() => { mobileNav.style.display = 'none'; }, 400);
-            };
-        });
-
-        window.showToast = function (msg, type = 'ok') {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            const icon = type === 'ok' ? '✓' : '✕';
-            toast.className = 'toast';
-            toast.style.cssText = `
-                background: ${type === 'ok' ? '#10b981' : '#ef4444'};
-                color: white; padding: 1rem 1.5rem; border-radius: 16px;
-                display: flex; align-items: center; gap: 0.8rem;
-                font-weight: 700; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-                animation: toastIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-                pointer-events: auto; min-width: 250px;
-            `;
-            toast.innerHTML = `<span style="background:rgba(255,255,255,0.2); width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center;">${icon}</span>` + msg;
-            container.appendChild(toast);
-            setTimeout(() => {
-                toast.style.animation = 'toastOut 0.4s ease forwards';
-                setTimeout(() => toast.remove(), 400);
-            }, 3000);
-        };
-
-        // Animation styles
-        const style = document.createElement('style');
-        style.textContent = `
-        @keyframes toastIn { from { opacity:0; transform:translateX(100px) scale(0.9); } to { opacity:1; transform:translateX(0) scale(1); } }
-        @keyframes toastOut { from { opacity:1; transform:translateX(0) scale(1); } to { opacity:0; transform:translateX(100px) scale(0.9); } }
-    `;
-        document.head.appendChild(style);
-        // No login/auth UI synchronization needed
-    </script>
-
-    <!-- Router — must load last so globals are available -->
-    <script defer src="js/app.js?v=4.0"></script>
+  <script src="js/db.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/spa-router.js"></script>
+  <script src="js/pages-integration.js"></script>
 </body>
-
 </html>

@@ -1,0 +1,3 @@
+# 
+
+{"Status":0,"TC":false,"RD":true,"RA":true,"AD":false,"CD":false,"Question":[{"name":"_railway-verify.justcook.co.in.","type":16}],"Answer":[{"name":"_railway-verify.justcook.co.in.","type":16,"TTL":3600,"data":"railway-verify=1522a20ef254b092f21d320f135016e1343be052175881ee492e61ed2e559ef8"},{"name":"_railway-verify.justcook.co.in.","type":16,"TTL":3600,"data":"railway-verify=754832ad3c8105fe915f54e7ff29a2b11450ba64744ccd3edde60993aaa758df"}],"Comment":"Response from 97.74.105.6."}
